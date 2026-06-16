@@ -1,0 +1,4 @@
+# app server (in addition to the core ../requirements.txt)
+fastapi
+uvicorn[standard]
+python-multipart

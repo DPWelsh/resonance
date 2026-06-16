@@ -32,12 +32,13 @@ See [`GRAPH_GUIDE.md`](GRAPH_GUIDE.md) for how to read the graph and what *reson
 - Personalized PageRank resonance, Leiden sub-scene clusters, betweenness hubs
 - WebGL map, Obsidian vault, SQLite, GraphML/JSON, ranked report
 - Producer vs mastering-engineer breakdown; up-and-coming artist/label discovery
+- **Web app** (`app/`, FastAPI + force-graph): upload a Spotify playlist CSV + your Discogs token → interactive map + live resonance & discovery lists
 
 **Roadmap:**
-- Spotify playlist **CSV import** ([Exportify](https://exportify.app)) as the primary entry point
-- `discovery = resonance × obscurity × freshness` scoring
+- `discovery = resonance × obscurity × freshness` scoring (anti-popularity)
 - **Bandcamp** layer — obscurity signal (supporter counts), fan-collection overlap graph, playable previews + buy links
-- Web UI — drop in a playlist, get your map
+- Alias resolution + bounded 1-hop in the web app's deep-scan path
+- Deploy (Fly.io / Render) + a hosted public demo
 
 ## Quickstart
 
@@ -50,7 +51,17 @@ python emit_outputs.py        # map + vault + report
 open scene_map.html
 ```
 
-Requires a free [Discogs personal access token](https://www.discogs.com/settings/developers). Edit `SEED_LABELS` in `harvest_scene.py` for your favourite labels. The harvester currently expects a `library.json` (extracted from Apple Music); Spotify CSV import is on the roadmap.
+Requires a free [Discogs personal access token](https://www.discogs.com/settings/developers). Edit `SEED_LABELS` in `harvest_scene.py` for your favourite labels. The CLI harvester expects a `library.json` (extracted from Apple Music); for Spotify playlists, use the web app below.
+
+## Run the web app
+
+Upload a playlist CSV (export yours at [exportify.app](https://exportify.app)) + your Discogs token → interactive map + resonance/discovery lists. Bring-your-own-token, nothing stored.
+
+```bash
+pip install -r requirements.txt -r app/requirements.txt
+uvicorn app.server:app --reload      # from repo root
+# then open http://127.0.0.1:8077
+```
 
 ## How it's different
 
