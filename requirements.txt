@@ -1,0 +1,6 @@
+requests
+networkx
+igraph
+leidenalg
+ipysigma
+duckdb

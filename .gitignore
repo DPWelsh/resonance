@@ -1,0 +1,35 @@
+# secrets — NEVER commit
+.env
+
+# personal inputs (your collection / taste data)
+library*.json
+music_ratings.json
+*_backup*.json
+id3_backup.json
+audio_features.*
+enrichment.*
+
+# harvest cache + derived data
+scene_cache/
+*.db
+*.jsonl
+
+# generated outputs
+scene_map.html
+scene_graph.graphml
+scene_graph.json
+obsidian_vault/
+resonance.md
+discoveries.md
+releases_to_check.md
+top_artists.md
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# os
+.DS_Store
