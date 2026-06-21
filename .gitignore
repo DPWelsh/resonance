@@ -11,6 +11,7 @@ enrichment.*
 
 # harvest cache + derived data
 scene_cache/
+setlist_cache/
 *.db
 *.jsonl
 
@@ -30,6 +31,16 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
+
+# local artifacts (qa renders, logs, CLI graph outputs)
+qa_*.png
+app/qa_*.png
+*.pdf
+*.log
+*_graph.html
+*_graph.json
+*_graph_enriched.html
+*_graph_enriched.json
 
 # os
 .DS_Store

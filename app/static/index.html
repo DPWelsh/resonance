@@ -1,138 +1,260 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>resonance — get off the recommendation train</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Setlist Graph</title>
+<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
 <style>
-  :root { --bg:#0e0e10; --panel:#17171a; --line:#2a2a2f; --txt:#e8e8ea; --mut:#9a9aa2; --acc:#7f77dd; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--txt); }
-  header { padding:28px 22px 10px; }
-  h1 { margin:0; font-size:26px; font-weight:600; letter-spacing:-.5px; }
-  h1 span { color:var(--acc); }
-  .sub { color:var(--mut); margin:6px 0 0; max-width:640px; }
-  .wrap { padding:18px 22px 40px; max-width:1180px; margin:0 auto; }
-  form { display:flex; flex-wrap:wrap; gap:12px; align-items:center; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; }
-  input[type=file], input[type=password] { background:#202024; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:14px; }
-  input[type=password] { width:230px; }
-  label.chk { color:var(--mut); font-size:13px; display:flex; gap:6px; align-items:center; }
-  button { background:var(--acc); color:#fff; border:0; border-radius:8px; padding:10px 18px; font-size:14px; font-weight:600; cursor:pointer; }
-  button:disabled { opacity:.5; cursor:default; }
-  .hint { color:var(--mut); font-size:12.5px; margin-top:8px; }
-  .hint a { color:var(--acc); }
-  #progress { margin:16px 0; color:var(--mut); font-size:14px; min-height:20px; }
-  .grid { display:grid; grid-template-columns: 1fr 320px; gap:16px; margin-top:8px; }
-  @media (max-width:880px){ .grid { grid-template-columns:1fr; } }
-  #graph { height:560px; background:#0b0b0d; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  .side { display:flex; flex-direction:column; gap:14px; }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
-  .card h3 { margin:0 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--mut); font-weight:600; }
-  .row { display:flex; justify-content:space-between; gap:8px; padding:4px 0; border-bottom:1px solid #202024; font-size:14px; }
-  .row:last-child { border:0; }
-  .row b { font-weight:500; }
-  .res { color:var(--acc); font-variant-numeric:tabular-nums; }
-  .err { color:#e24b4a; }
+  :root{
+    --bg:#0c0e13; --panel:#13161d; --panel2:#1a1e27; --line:#262b36;
+    --ink:#e8eaf1; --mute:#8b93a6; --accent:#35c9c0; --accent2:#ff5da2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  #app{display:flex;height:100vh;overflow:hidden}
+  /* sidebar */
+  #side{width:340px;min-width:340px;background:var(--panel);border-right:1px solid var(--line);
+    display:flex;flex-direction:column;overflow-y:auto}
+  #side .pad{padding:18px}
+  h1{font-size:17px;margin:0 0 2px;letter-spacing:.2px}
+  h1 small{color:var(--accent);font-weight:600}
+  .sub{color:var(--mute);font-size:12px;margin:0 0 16px;line-height:1.45}
+  textarea{width:100%;height:150px;resize:vertical;background:var(--bg);color:var(--ink);
+    border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.4}
+  textarea::placeholder{color:#5a6172}
+  .row{display:flex;align-items:center;gap:10px;margin-top:12px}
+  .toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute);cursor:pointer}
+  button{background:var(--accent);color:#06201e;border:0;border-radius:8px;padding:10px 16px;
+    font-weight:700;font-size:13px;cursor:pointer;letter-spacing:.2px}
+  button:hover{filter:brightness(1.07)}
+  button:disabled{opacity:.5;cursor:default}
+  .file-lbl{font-size:12px;color:var(--mute);cursor:pointer;text-decoration:underline dotted}
+  input[type=file]{display:none}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .plabel{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#566;width:100%;margin-bottom:-2px}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-size:11.5px;
+    padding:6px 11px;border-radius:16px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip .n{color:var(--mute);font-size:10.5px}
+  /* progress */
+  #prog{margin-top:14px;display:none}
+  #prog .bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:6px}
+  #prog .fill{height:100%;width:0;background:var(--accent);transition:width .3s}
+  #prog .lbl{font-size:11.5px;color:var(--mute)}
+  #err{display:none;margin-top:12px;font-size:12px;color:#ff8585;background:#2a1416;
+    border:1px solid #43232a;border-radius:8px;padding:10px}
+  .sec{border-top:1px solid var(--line)}
+  .sec h2{font-size:11px;letter-spacing:1.5px;color:var(--mute);text-transform:uppercase;
+    margin:0;padding:14px 18px 8px}
+  .list{padding:0 12px 8px}
+  .item{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:12.5px}
+  .item:hover{background:var(--panel2)}
+  .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;border:1px solid #0006}
+  .item .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .rs{color:var(--mute);font-size:11px;font-variant-numeric:tabular-nums}
+  .empty{color:#5a6172;font-size:12px;padding:4px 18px 12px}
+  /* main */
+  #main{flex:1;position:relative;background:radial-gradient(1200px 800px at 30% 40%,#0f1218,#0a0c10)}
+  #net{position:absolute;inset:0}
+  .world{position:absolute;top:14px;font-size:11px;letter-spacing:2px;color:#4a5163;
+    text-transform:uppercase;font-weight:700;pointer-events:none}
+  #wL{left:24px}  #wR{right:24px}
+  #legend{position:absolute;right:14px;bottom:14px;background:rgba(16,19,26,.92);
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-width:230px;font-size:11.5px}
+  #legend h3{margin:0 0 8px;font-size:10px;letter-spacing:1.5px;color:var(--mute);text-transform:uppercase}
+  #legend .g{display:flex;flex-wrap:wrap;gap:5px 12px}
+  #legend .ge{display:flex;align-items:center;gap:6px;color:var(--ink)}
+  #legend .sw{width:9px;height:9px;border-radius:2px}
+  #legend .roles{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+  #legend .re{display:flex;align-items:center;gap:7px;color:var(--mute)}
+  #legend .ring{width:11px;height:11px;border-radius:50%;background:#2a2f3a}
+  #search{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:280px}
+  #search input{width:100%;background:rgba(16,19,26,.92);border:1px solid var(--line);
+    border-radius:20px;padding:8px 14px;color:var(--ink);font-size:12.5px;outline:none}
+  #stat{position:absolute;left:24px;bottom:16px;color:#566;font-size:11.5px}
+  #empty-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:#39404e;font-size:14px;text-align:center;pointer-events:none;padding:40px}
 </style>
 </head>
 <body>
-<header>
-  <h1><span>resonance</span> — get off the recommendation train</h1>
-  <p class="sub">Drop in a Spotify playlist and this maps the production-credit scene around your taste — the producers, remixers and hidden names your feed never shows you.</p>
-</header>
-<div class="wrap">
-  <form id="f">
-    <input type="file" id="csv" accept=".csv" required>
-    <input type="password" id="token" placeholder="Discogs token" required>
-    <label class="chk"><input type="checkbox" id="deep"> deep scan (slower)</label>
-    <button id="go" type="submit">Scan</button>
-  </form>
-  <div class="hint">Export your playlist as CSV at <a href="https://exportify.app" target="_blank" rel="noopener">exportify.app</a> · get a free token at <a href="https://www.discogs.com/settings/developers" target="_blank" rel="noopener">discogs.com/settings/developers</a>. Nothing is stored.</div>
-
-  <div id="progress"></div>
-
-  <div class="grid" id="results" style="display:none">
-    <div id="graph"></div>
-    <div class="side">
-      <div class="card"><h3>Your top by resonance</h3><div id="top"></div></div>
-      <div class="card"><h3>Discovery — not in your playlist</h3><div id="disc"></div></div>
+<div id="app">
+  <aside id="side">
+    <div class="pad">
+      <h1>Setlist <small>Graph</small></h1>
+      <p class="sub">Paste a DJ setlist. Get the artists &amp; their record labels as two connected worlds, coloured by genre — and the artists worth digging next.</p>
+      <textarea id="ta" placeholder="One track per line:&#10;Kuniyuki Takahashi&#9;Earth Beats&#10;Function&#9;Voiceprint&#10;...&#10;&#10;(Artist &lt;tab&gt; Title, or 'Artist - Title')"></textarea>
+      <div class="presets" id="presets"><span class="plabel">Preloaded sets</span></div>
+      <div class="row">
+        <button id="go">Build graph</button>
+        <label class="toggle"><input type="checkbox" id="deep" checked/> deep (Discogs)</label>
+        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv"/></label>
+      </div>
+      <div id="prog"><div class="lbl">…</div><div class="bar"><div class="fill" id="pfill"></div></div></div>
+      <div id="err"></div>
     </div>
-  </div>
+    <div class="sec" id="sum-artists" style="display:none">
+      <h2>Top artists</h2><div class="list" id="l-artists"></div>
+    </div>
+    <div class="sec" id="sum-disc" style="display:none">
+      <h2>✨ Dig next (not in set)</h2><div class="list" id="l-disc"></div>
+    </div>
+    <div class="sec" id="sum-labels" style="display:none">
+      <h2>🏷 Labels</h2><div class="list" id="l-labels"></div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div id="net"></div>
+    <div class="world" id="wL">Artists →</div>
+    <div class="world" id="wR">← Labels</div>
+    <div id="search"><input id="q" placeholder="Search a node…"/></div>
+    <div id="legend" style="display:none"><h3>Genre</h3><div class="g" id="leg-g"></div>
+      <div class="roles" id="leg-r"></div></div>
+    <div id="stat"></div>
+    <div id="empty-hint">Paste a setlist on the left and hit <b>Build graph</b>.</div>
+  </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/force-graph"></script>
 <script>
-const PAL = ['#7f77dd','#1d9e75','#d85a30','#d4537e','#378add','#639922','#ba7517','#e24b4a','#0f6e56','#993556'];
-const $ = id => document.getElementById(id);
-let graph;
+const $ = s => document.querySelector(s);
+let network = null, nodesDS = null;
 
-$('f').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const file = $('csv').files[0];
-  if (!file) return;
-  $('go').disabled = true;
-  $('progress').textContent = 'uploading…';
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('token', $('token').value.trim());
-  fd.append('deep', $('deep').checked ? 'true' : 'false');
-  let start;
-  try {
-    const r = await fetch('/api/analyze', { method:'POST', body: fd });
-    if (!r.ok) { throw new Error((await r.json()).detail || r.statusText); }
-    start = await r.json();
-  } catch (err) { fail(err.message); return; }
-  poll(start.job_id);
+$('#file').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('#ta').value = await f.text();
 });
 
-function fail(msg){ $('progress').innerHTML = '<span class="err">'+msg+'</span>'; $('go').disabled = false; }
+$('#go').addEventListener('click', build);
 
-async function poll(jid){
-  try {
-    const r = await fetch('/api/status/'+jid);
-    const s = await r.json();
-    if (s.status === 'running') {
-      const p = s.progress || {};
-      $('progress').textContent = `${p.stage||'working'} — ${p.done||0}/${p.total||'?'}`;
-      return setTimeout(()=>poll(jid), 800);
+async function build(){
+  const setlist = $('#ta').value.trim();
+  if (!setlist){ showErr('Paste a setlist first.'); return; }
+  $('#err').style.display='none';
+  $('#go').disabled = true;
+  $('#prog').style.display='block';
+  setProg('Starting…', 0);
+  let jid;
+  try{
+    const r = await fetch('/api/build', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({setlist, deep: $('#deep').checked})});
+    jid = (await r.json()).job_id;
+  }catch(e){ showErr('Could not reach server.'); $('#go').disabled=false; return; }
+
+  const es = new EventSource(`/api/progress/${jid}`);
+  es.onmessage = async ev => {
+    const d = JSON.parse(ev.data);
+    if (d.status === 'error'){ es.close(); showErr(d.error||'Build failed.'); $('#go').disabled=false; $('#prog').style.display='none'; return; }
+    if (d.progress){ const p=d.progress; const pct = p.total? Math.round(100*p.i/p.total):5;
+      setProg(`${p.stage}${p.total>1?` — ${p.i}/${p.total}`:''}`, pct); }
+    if (d.status === 'done'){
+      es.close(); setProg('Done', 100);
+      const res = await (await fetch(`/api/result/${jid}`)).json();
+      render(res.graph, res.tracks);
+      $('#go').disabled=false;
+      setTimeout(()=>{ $('#prog').style.display='none'; }, 800);
     }
-    if (s.status === 'error') return fail(s.error || 'analysis failed');
-    const res = await (await fetch('/api/result/'+jid)).json();
-    render(res);
-  } catch (err) { fail(err.message); }
+  };
+  es.onerror = ()=>{ es.close(); $('#go').disabled=false; };
 }
 
-function render(res){
-  $('go').disabled = false;
-  const st = res.stats || {};
-  $('progress').textContent = `${st.resolved||0}/${st.tracks||0} tracks matched · ${st.nodes||0} people · ${st.edges||0} collaborations`;
-  $('results').style.display = 'grid';
-  list('top', res.top); list('disc', res.discovery);
-  const nodes = res.nodes.map(n => ({...n}));
-  const links = res.edges.map(e => ({...e}));
-  graph = ForceGraph()($('graph'))
-    .backgroundColor('#0b0b0d')
-    .graphData({ nodes, links })
-    .nodeId('id')
-    .nodeLabel(n => `${n.label} — resonance ${n.resonance}`)
-    .nodeVal(n => Math.max(0.6, n.resonance/5))
-    .nodeColor(n => n.technical ? '#4a4a50' : PAL[(n.cluster||0) % PAL.length])
-    .linkColor(() => 'rgba(150,150,160,0.12)')
-    .linkWidth(l => Math.min(3, (l.weight||0.5)))
-    .nodeCanvasObjectMode(n => n.in_playlist ? 'after' : undefined)
-    .nodeCanvasObject((n, ctx) => {
-      const r = Math.sqrt(Math.max(0.6, n.resonance/5)) * 4 + 1.5;
-      ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 2*Math.PI);
-      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 0.7; ctx.stroke();
+function setProg(label, pct){ document.querySelector('#prog .lbl').textContent=label; $('#pfill').style.width=pct+'%'; }
+function showErr(m){ const e=$('#err'); e.textContent=m; e.style.display='block'; }
+
+function render(g, tracks){
+  $('#empty-hint').style.display='none';
+  // nodes
+  const nodes = g.nodes.map(n => ({
+    id:n.id, label:(n.role==='discovered' && n.resonance<22) ? '' : n.label,
+    title:`${n.label}\n${n.role}${n.role!=='label'?' · '+n.genre:''} · resonance ${Math.round(n.resonance)}`,
+    x:n.x, y:n.y, fixed:{x:false,y:false},
+    shape: n.role==='label' ? 'square' : 'dot',
+    size: Math.max(5, n.size*1.15) + (n.role==='label'?2:0),
+    color:{background:n.color, border:n.border,
+      highlight:{background:n.color, border:'#ffffff'}},
+    borderWidth: n.role==='label'?3:2,
+    font:{color:'#cfd4e0', size: n.role==='label'?12:11, strokeWidth:3, strokeColor:'#0a0c10'},
+  }));
+  const edges = g.edges.map(e => ({from:e.source, to:e.target,
+    color:{color:'rgba(150,162,186,0.16)', highlight:'rgba(53,201,192,0.7)'},
+    width: Math.max(0.3, e.weight*1.6), smooth:false}));
+  nodesDS = new vis.DataSet(nodes);
+  const data = {nodes:nodesDS, edges:new vis.DataSet(edges)};
+  const options = {
+    physics:false, interaction:{hover:true, tooltipDelay:120, dragNodes:true,
+      navigationButtons:false, keyboard:false},
+    nodes:{shapeProperties:{interpolation:false}},
+    edges:{selectionWidth:1.5},
+  };
+  if (network) network.destroy();
+  network = new vis.Network($('#net'), data, options);
+  network.once('afterDrawing', ()=> network.fit({animation:false}));
+  network.on('click', p => { if(p.nodes.length) focusNode(p.nodes[0]); });
+
+  buildLegend(g.palette);
+  fillSummary(g.summary);
+  $('#stat').textContent = `${g.stats.nodes} nodes · ${g.stats.edges} edges · ${tracks} tracks`;
+}
+
+function buildLegend(palette){
+  const used = {}; // only show genres present
+  nodesDS.forEach(n => {});
+  const gEl = $('#leg-g'); gEl.innerHTML='';
+  Object.entries(palette).forEach(([genre,color])=>{
+    const d=document.createElement('div'); d.className='ge';
+    d.innerHTML=`<span class="sw" style="background:${color}"></span>${genre}`;
+    gEl.appendChild(d);
+  });
+  $('#leg-r').innerHTML = [
+    ['#ffffff','artist (in set)'], ['#f2c14e','remixer'],
+    ['#7aa2f7','discovered'], ['#ff5da2','record label']
+  ].map(([c,t])=>`<div class="re"><span class="ring" style="box-shadow:0 0 0 2px ${c} inset"></span>${t}</div>`).join('');
+  $('#legend').style.display='block';
+}
+
+function fillSummary(s){
+  const pal = {Other:'#8893a8'};
+  const mk = (arr, el, withGenre) => {
+    const box=$(el); box.innerHTML='';
+    if(!arr.length){ box.innerHTML='<div class="empty">—</div>'; return; }
+    arr.forEach(it=>{
+      const d=document.createElement('div'); d.className='item';
+      d.innerHTML=`<span class="nm">${it.label}</span><span class="rs">${Math.round(it.resonance)}</span>`;
+      d.onclick=()=>focusByLabel(it.label);
+      box.appendChild(d);
     });
-  graph.width($('graph').clientWidth).height($('graph').clientHeight);
+  };
+  mk(s.artists,'#l-artists'); mk(s.discoveries,'#l-disc'); mk(s.labels,'#l-labels');
+  $('#sum-artists').style.display = s.artists.length?'block':'none';
+  $('#sum-disc').style.display = s.discoveries.length?'block':'none';
+  $('#sum-labels').style.display = s.labels.length?'block':'none';
 }
 
-function list(id, items){
-  $(id).innerHTML = (items||[]).slice(0,18).map(n =>
-    `<div class="row"><b>${esc(n.name)}</b><span class="res">${n.resonance}</span></div>`).join('') || '<div class="row">—</div>';
+function focusNode(id){ network.focus(id,{scale:1.4,animation:{duration:400}}); network.selectNodes([id]); }
+function focusByLabel(lbl){
+  if(!nodesDS) return;
+  const hit = nodesDS.get().find(n=> (n.label||'').toLowerCase()===lbl.toLowerCase())
+           || nodesDS.get().find(n=> n.title && n.title.toLowerCase().startsWith(lbl.toLowerCase()));
+  if(hit) focusNode(hit.id);
 }
-function esc(s){ return (s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+$('#q').addEventListener('keydown', e=>{ if(e.key==='Enter'){ focusByLabel(e.target.value.trim()); }});
+
+async function loadPresets(){
+  try{
+    const ps = await (await fetch('/api/presets')).json();
+    const box = $('#presets');
+    ps.forEach(p=>{
+      const c=document.createElement('div'); c.className='chip';
+      c.innerHTML=`${p.name} <span class="n">${p.tracks}</span>`;
+      c.onclick=async()=>{ const d=await (await fetch('/api/preset/'+p.id)).json();
+        $('#ta').value=d.content; build(); };
+      box.appendChild(c);
+    });
+  }catch(e){}
+}
+loadPresets();
 </script>
 </body>
 </html>

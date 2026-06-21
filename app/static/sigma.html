@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Setlist Graph · Sigma</title>
+<style>
+  :root{
+    --bg:#06080c; --panel:#0e1117; --panel2:#161a22; --line:#222734;
+    --ink:#e9ecf4; --mute:#828b9f; --accent:#37c9c0; --accent2:#ff5da2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  #app{display:flex;height:100vh;overflow:hidden}
+  #side{width:340px;min-width:340px;background:var(--panel);border-right:1px solid var(--line);
+    display:flex;flex-direction:column;overflow-y:auto}
+  #side .pad{padding:18px}
+  h1{font-size:17px;margin:0 0 2px;letter-spacing:.2px;font-weight:600}
+  h1 small{color:var(--accent)}
+  .sub{color:var(--mute);font-size:12px;margin:0 0 15px;line-height:1.45}
+  textarea{width:100%;height:120px;resize:vertical;background:var(--bg);color:var(--ink);
+    border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.4}
+  textarea::placeholder{color:#4d5563}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .plabel{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#566;width:100%;margin-bottom:-2px}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-size:11.5px;
+    padding:6px 11px;border-radius:16px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip .n{color:var(--mute);font-size:10.5px}
+  .row{display:flex;align-items:center;gap:10px;margin-top:12px}
+  .toggle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mute);cursor:pointer}
+  button{background:var(--accent);color:#04201d;border:0;border-radius:8px;padding:10px 16px;
+    font-weight:700;font-size:13px;cursor:pointer}
+  button:hover{filter:brightness(1.07)} button:disabled{opacity:.5}
+  .file-lbl{font-size:12px;color:var(--mute);cursor:pointer;text-decoration:underline dotted}
+  input[type=file]{display:none}
+  #prog{margin-top:14px;display:none}
+  #prog .lbl{font-size:11.5px;color:var(--mute)}
+  #prog .bar{height:5px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:6px}
+  #prog .fill{height:100%;width:0;background:var(--accent);transition:width .3s}
+  #err{display:none;margin-top:12px;font-size:12px;color:#ff8585;background:#2a1416;border:1px solid #43232a;border-radius:8px;padding:10px}
+  .sec{border-top:1px solid var(--line)}
+  .sec h2{font-size:11px;letter-spacing:1.4px;color:var(--mute);text-transform:uppercase;margin:0;padding:14px 18px 8px}
+  .list{padding:0 12px 8px}
+  .item{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:12.5px}
+  .item:hover{background:var(--panel2)}
+  .item .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .rs{color:var(--mute);font-size:11px;font-variant-numeric:tabular-nums}
+  /* main */
+  #main{flex:1;position:relative;background:
+    radial-gradient(1100px 760px at 32% 42%, #0b0f16 0%, #07090d 60%, #050609 100%)}
+  #sigma{position:absolute;inset:0}
+  .world{position:absolute;top:16px;font-size:11px;letter-spacing:3px;color:#3b4252;
+    text-transform:uppercase;font-weight:700;pointer-events:none;user-select:none}
+  #wL{left:26px} #wR{right:300px}
+  #search{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:300px}
+  #search input{width:100%;background:rgba(10,13,19,.9);border:1px solid var(--line);border-radius:20px;
+    padding:9px 15px;color:var(--ink);font-size:12.5px;outline:none;backdrop-filter:blur(6px)}
+  #search input:focus{border-color:var(--accent)}
+  #legend{position:absolute;right:14px;bottom:14px;background:rgba(10,13,19,.86);border:1px solid var(--line);
+    border-radius:12px;padding:13px 15px;max-width:250px;font-size:11.5px;backdrop-filter:blur(8px);display:none}
+  #legend h3{margin:0 0 9px;font-size:10px;letter-spacing:1.5px;color:var(--mute);text-transform:uppercase}
+  #legend .g{display:flex;flex-direction:column;gap:5px;max-height:340px;flex-wrap:wrap}
+  #legend .ge{display:flex;align-items:center;gap:7px;color:var(--ink);cursor:pointer;opacity:1;transition:opacity .15s}
+  #legend .ge.off{opacity:.32}
+  #legend .sw{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+  #toolbar{position:absolute;top:14px;right:14px;display:flex;gap:8px}
+  #toolbar .tb{background:rgba(10,13,19,.86);border:1px solid var(--line);color:var(--mute);
+    font-size:11.5px;padding:7px 11px;border-radius:8px;cursor:pointer;backdrop-filter:blur(6px)}
+  #toolbar .tb:hover{color:var(--ink);border-color:var(--accent)}
+  #toolbar .tb.on{color:var(--accent);border-color:var(--accent)}
+  #stat{position:absolute;left:26px;bottom:16px;color:#4b5365;font-size:11.5px}
+  #hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#2f3744;
+    font-size:14px;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <div class="pad">
+      <h1>Setlist <small>Graph</small></h1>
+      <p class="sub">Paste a DJ setlist → artists &amp; their labels as two connected worlds, by genre. <b>Hover</b> a node to isolate it · click a table row to fly to it.</p>
+      <textarea id="ta" placeholder="One track per line:&#10;Function&#9;Voiceprint&#10;Dave Clarke&#9;Wisdom to the Wise&#10;...  (Artist &lt;tab&gt; Title or 'Artist - Title')"></textarea>
+      <div class="presets" id="presets"><span class="plabel">Preloaded sets</span></div>
+      <div class="row">
+        <button id="go">Build graph</button>
+        <label class="toggle"><input type="checkbox" id="deep" checked/> deep</label>
+        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv"/></label>
+      </div>
+      <div id="prog"><div class="lbl">…</div><div class="bar"><div class="fill" id="pfill"></div></div></div>
+      <div id="err"></div>
+    </div>
+    <div class="sec" id="sum-artists" style="display:none"><h2>Top artists</h2><div class="list" id="l-artists"></div></div>
+    <div class="sec" id="sum-disc" style="display:none"><h2>✨ Dig next</h2><div class="list" id="l-disc"></div></div>
+    <div class="sec" id="sum-labels" style="display:none"><h2>🏷 Labels</h2><div class="list" id="l-labels"></div></div>
+  </aside>
+
+  <main id="main">
+    <div id="sigma"></div>
+    <div class="world" id="wL">Artists</div>
+    <div class="world" id="wR">Labels</div>
+    <div id="search"><input id="q" placeholder="Search a node…" autocomplete="off"/></div>
+    <div id="toolbar">
+      <div class="tb" id="tb-disc">Show dig-next</div>
+      <div class="tb" id="tb-edges">Edges</div>
+      <div class="tb" id="tb-reset">Reset</div>
+    </div>
+    <div id="legend"><h3>Genre — click to filter</h3><div class="g" id="leg-g"></div></div>
+    <div id="stat"></div>
+    <div id="hint">Pick a preloaded set on the left, or paste your own.</div>
+  </main>
+</div>
+
+<script type="module">
+import Graph from "https://esm.sh/graphology@0.25.4";
+import Sigma from "https://esm.sh/sigma@3.0.0";
+
+const $ = s => document.querySelector(s);
+// premium, slightly-muted genre palette
+const PAL = {
+  'Deep House':'#3bb6a3','House':'#5aa0d8','Tech House':'#5d86c9','Techno':'#e0664a',
+  'Dub Techno':'#2f8090','Minimal':'#8c80d8','Acid':'#a9c24a','Electro':'#d6a93f',
+  'Disco':'#d65f9a','Ambient':'#6fb58a','Breaks':'#d65a5a','D&B/Jungle':'#d67a3a',
+  'Garage':'#9a73c9','Tribal':'#c2904f','Progressive':'#5f86c9','Broken Beat':'#c2a83f',
+  'Leftfield':'#7fb3a3','Electronic':'#7a93b0','Other':'#5d6677'
+};
+const FADE = 'rgba(120,130,150,0.12)';
+const hexA = (hex,a)=>{const h=hex.replace('#','');const n=parseInt(h.length===3?h.split('').map(c=>c+c).join(''):h,16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;};
+
+let renderer=null, graph=null, hovered=null, pinned=null, focusSet=null;
+let activeGenres=null, showDisc=false, showEdges=false;
+
+$('#file').addEventListener('change', async e=>{ const f=e.target.files[0]; if(f) $('#ta').value=await f.text(); });
+$('#go').addEventListener('click', build);
+
+async function build(){
+  const setlist=$('#ta').value.trim();
+  if(!setlist){ showErr('Paste a setlist first.'); return; }
+  $('#err').style.display='none'; $('#go').disabled=true; $('#prog').style.display='block'; setProg('Starting…',4);
+  let jid;
+  try{ jid=(await (await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({setlist,deep:$('#deep').checked})})).json()).job_id; }
+  catch(e){ showErr('Could not reach server.'); $('#go').disabled=false; return; }
+  const es=new EventSource(`/api/progress/${jid}`);
+  es.onmessage=async ev=>{
+    const d=JSON.parse(ev.data);
+    if(d.status==='error'){ es.close(); showErr(d.error||'Build failed.'); $('#go').disabled=false; $('#prog').style.display='none'; return; }
+    if(d.progress){ const p=d.progress; setProg(`${p.stage}${p.total>1?` — ${p.i}/${p.total}`:''}`, p.total?Math.round(100*p.i/p.total):6); }
+    if(d.status==='done'){ es.close(); setProg('Done',100);
+      const res=await (await fetch(`/api/result/${jid}`)).json();
+      renderGraph(res.graph,res.tracks); $('#go').disabled=false; setTimeout(()=>$('#prog').style.display='none',700); }
+  };
+  es.onerror=()=>{ es.close(); $('#go').disabled=false; };
+}
+function setProg(l,p){ $('#prog .lbl').textContent=l; $('#pfill').style.width=p+'%'; }
+function showErr(m){ const e=$('#err'); e.textContent=m; e.style.display='block'; }
+
+function renderGraph(g, tracks){
+  $('#hint').style.display='none';
+  if(renderer){ renderer.kill(); renderer=null; }
+  graph=new Graph();
+  for(const n of g.nodes){
+    const col=PAL[n.genre]||PAL.Other;
+    const isLabel=n.role==='label';
+    graph.addNode(n.id,{
+      x:n.x, y:-n.y,                       // flip y for screen orientation
+      size: Math.max(4, n.size*0.95) + (isLabel?2:0),
+      color: isLabel ? hexA(col,0.92) : col,
+      label: n.label, genre:n.genre, role:n.role, resonance:n.resonance,
+      baseColor: col,
+      zIndex: isLabel?2:(n.role==='artist'?1:0),
+    });
+  }
+  for(const e of g.edges){
+    if(graph.hasNode(e.source)&&graph.hasNode(e.target)&&!graph.hasEdge(e.source,e.target))
+      graph.addEdge(e.source,e.target,{ size:Math.max(0.4,e.weight*1.4), weight:e.weight, color:FADE });
+  }
+  renderer=new Sigma(graph, $('#sigma'), {
+    allowInvalidContainer:true,
+    defaultEdgeColor:FADE,
+    labelColor:{color:'#c7cdda'},
+    labelFont:'-apple-system, Inter, Helvetica, Arial, sans-serif',
+    labelSize:11, labelWeight:'600',
+    labelDensity:0.55, labelGridCellSize:74, labelRenderedSizeThreshold:11,
+    zIndex:true, enableEdgeEvents:true, minCameraRatio:0.08, maxCameraRatio:3,
+  });
+
+  renderer.setSetting('nodeReducer',(node,data)=>{
+    const r={...data};
+    if(activeGenres && !activeGenres.has(data.genre)){ r.hidden=true; return r; }
+    if(!showDisc && data.role==='discovered'){ r.hidden=true; return r; }
+    if(focusSet){
+      if(focusSet.has(node)){ r.zIndex=3; r.forceLabel=true; r.highlighted=true; }
+      else { r.color=FADE; r.label=''; r.zIndex=0; r.size=Math.max(2,data.size*0.7); }
+    }
+    return r;
+  });
+  renderer.setSetting('edgeReducer',(edge,data)=>{
+    const r={...data};
+    if(!showEdges && !focusSet){ r.hidden=true; return r; }   // ghosted/off at rest
+    if(focusSet){
+      const ext=graph.extremities(edge);
+      if(focusSet.has(ext[0])&&focusSet.has(ext[1])){ r.color=hexA('#37c9c0',0.72); r.zIndex=3; r.size=Math.max(1.1,data.weight*1.6); }
+      else { r.hidden=true; }
+    } else { r.color=hexA('#8a93a8',0.10); }
+    return r;
+  });
+
+  const setFocus=node=>{ const s=new Set(graph.neighbors(node)); s.add(node); focusSet=s; renderer.refresh(); };
+  const clearFocus=()=>{ if(!pinned){ focusSet=null; renderer.refresh(); } };
+  renderer.on('enterNode',({node})=>{ hovered=node; if(!pinned) setFocus(node); });
+  renderer.on('leaveNode',()=>{ hovered=null; clearFocus(); });
+  renderer.on('clickNode',({node})=>{ pinned=(pinned===node?null:node); if(pinned){ setFocus(node); flyTo(node);} else clearFocus(); });
+  renderer.on('clickStage',()=>{ pinned=null; focusSet=null; renderer.refresh(); });
+
+  buildLegend(g.palette); fillSummary(g.summary);
+  $('#stat').textContent=`${g.stats.nodes} nodes · ${g.stats.edges} edges · ${tracks} tracks`;
+  $('#legend').style.display='block';
+  setTimeout(()=>fit(),60);
+}
+
+function fit(){ if(!renderer) return; const c=renderer.getCamera(); c.animatedReset({duration:400}); }
+function flyTo(node){ const p=renderer.getNodeDisplayData(node); if(p) renderer.getCamera().animate({x:p.x,y:p.y,ratio:0.32},{duration:520}); }
+
+function buildLegend(palette){
+  const present=new Set(graph.mapNodes((n,a)=>a.genre));
+  const el=$('#leg-g'); el.innerHTML='';
+  Object.keys(PAL).filter(gn=>present.has(gn)).forEach(gn=>{
+    const d=document.createElement('div'); d.className='ge'; d.dataset.g=gn;
+    d.innerHTML=`<span class="sw" style="background:${PAL[gn]}"></span>${gn}`;
+    d.onclick=()=>toggleGenre(gn,d);
+    el.appendChild(d);
+  });
+}
+function toggleGenre(gn,el){
+  if(!activeGenres) activeGenres=new Set(graph.mapNodes((n,a)=>a.genre));
+  if(activeGenres.has(gn)) activeGenres.delete(gn); else activeGenres.add(gn);
+  if(activeGenres.size===0 || activeGenres.size===$('#leg-g').children.length) activeGenres=null;
+  [...$('#leg-g').children].forEach(c=>c.classList.toggle('off', activeGenres && !activeGenres.has(c.dataset.g)));
+  renderer.refresh();
+}
+
+function fillSummary(s){
+  const mk=(arr,el)=>{ const b=$(el); b.innerHTML='';
+    arr.forEach(it=>{ const d=document.createElement('div'); d.className='item';
+      d.innerHTML=`<span class="nm">${it.label}</span><span class="rs">${Math.round(it.resonance)}</span>`;
+      d.onclick=()=>focusByLabel(it.label); b.appendChild(d); }); };
+  mk(s.artists,'#l-artists'); mk(s.discoveries,'#l-disc'); mk(s.labels,'#l-labels');
+  $('#sum-artists').style.display=s.artists.length?'block':'none';
+  $('#sum-disc').style.display=s.discoveries.length?'block':'none';
+  $('#sum-labels').style.display=s.labels.length?'block':'none';
+}
+function focusByLabel(lbl){
+  if(!graph) return;
+  const id=graph.findNode((n,a)=>(a.label||'').toLowerCase()===lbl.toLowerCase());
+  if(id){ if(graph.getNodeAttribute(id,'role')==='discovered'){ showDisc=true; $('#tb-disc').classList.add('on'); }
+    pinned=id; const s=new Set(graph.neighbors(id)); s.add(id); focusSet=s; renderer.refresh(); flyTo(id); }
+}
+$('#q').addEventListener('keydown',e=>{ if(e.key==='Enter') focusByLabel(e.target.value.trim()); });
+$('#tb-disc').addEventListener('click',()=>{ showDisc=!showDisc; $('#tb-disc').classList.toggle('on',showDisc); renderer&&renderer.refresh(); });
+$('#tb-edges').addEventListener('click',()=>{ showEdges=!showEdges; $('#tb-edges').classList.toggle('on',showEdges); renderer&&renderer.refresh(); });
+$('#tb-reset').addEventListener('click',()=>{ pinned=null;focusSet=null;activeGenres=null;
+  [...$('#leg-g').children].forEach(c=>c.classList.remove('off')); renderer&&renderer.refresh(); fit(); });
+
+async function loadPresets(){
+  try{ const ps=await (await fetch('/api/presets')).json(); const box=$('#presets');
+    ps.forEach(p=>{ const c=document.createElement('div'); c.className='chip';
+      c.innerHTML=`${p.name} <span class="n">${p.tracks}</span>`;
+      c.onclick=async()=>{ const d=await (await fetch('/api/preset/'+p.id)).json(); $('#ta').value=d.content; build(); };
+      box.appendChild(c); });
+  }catch(e){}
+}
+loadPresets();
+</script>
+</body>
+</html>

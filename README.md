@@ -32,7 +32,7 @@ See [`GRAPH_GUIDE.md`](GRAPH_GUIDE.md) for how to read the graph and what *reson
 - Personalized PageRank resonance, Leiden sub-scene clusters, betweenness hubs
 - WebGL map, Obsidian vault, SQLite, GraphML/JSON, ranked report
 - Producer vs mastering-engineer breakdown; up-and-coming artist/label discovery
-- **Web app** (`app/`, FastAPI + force-graph): upload a Spotify playlist CSV + your Discogs token → interactive map + live resonance & discovery lists
+- **Web app** (`app/`, FastAPI): paste a **DJ setlist** → a two-world **artist ↔ record-label** graph, genre-coloured, explorable three ways — a 2D sigma.js map, a spinning 3D force-graph globe, and a classic view. Click any node for a plain-English explainer of how it's related, plus **Discogs/Bandcamp links and inline track playback** (Discogs videos). Live build progress; preloaded example sets.
 
 **Roadmap:**
 - `discovery = resonance × obscurity × freshness` scoring (anti-popularity)
@@ -55,13 +55,19 @@ Requires a free [Discogs personal access token](https://www.discogs.com/settings
 
 ## Run the web app
 
-Upload a playlist CSV (export yours at [exportify.app](https://exportify.app)) + your Discogs token → interactive map + resonance/discovery lists. Bring-your-own-token, nothing stored.
+Paste a **DJ setlist** (or click a preloaded set) → it matches each track on Discogs, builds the **artist ↔ record-label** graph, and you explore it three ways. Click any node for an explainer of how it's related, with Discogs/Bandcamp links and an inline player for its tracks.
 
 ```bash
 pip install -r requirements.txt -r app/requirements.txt
-uvicorn app.server:app --reload      # from repo root
-# then open http://127.0.0.1:8077
+cp .env.example .env          # add your Discogs token
+python3 app/server.py         # from repo root
 ```
+
+Then open:
+- **3D globe** — http://127.0.0.1:8765/globe
+- **2D map** — http://127.0.0.1:8765/sigma
+
+Two sets come preloaded (a Panorama Bar techno set + a deep-house set). Paste your own as `Artist <tab> Title` lines (or `Artist - Title`), or upload a `.txt`/`.csv`. First build of a new set runs the Discogs harvest (rate-limited, a few minutes, with live progress); it's cached after, so rebuilds are instant.
 
 ## How it's different
 
