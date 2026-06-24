@@ -68,7 +68,7 @@ def serialize(g, positions, track_links=None, tracklist=None):
             'x': round(p['x'], 1), 'y': round(p['y'], 1),
             'size': d.get('size', 4), 'genre': d.get('genre', 'Other'),
             'role': d.get('role', 'artist'), 'resonance': d.get('resonance', 1.0),
-            'appearances': d.get('appearances', 0),
+            'appearances': d.get('appearances', 0), 'cluster': d.get('cluster', 0),
             'discogs_id': d.get('discogs_id'), 'debut': d.get('debut'), 'latest': d.get('latest'),
             'tracks': track_links.get(n, []),
             'color': slg.GENRE_PALETTE.get(d.get('genre', 'Other'), '#8893a8'),
@@ -324,8 +324,43 @@ STORY_SYSTEM = (
 )
 
 
+FESTIVAL_SYSTEM = (
+    "You are a music writer with a deep ear for electronic music — house, techno, "
+    "disco, ambient, the lineages between them. You write the kind of festival preview "
+    "that makes a digger nod: specific, warm, unpretentious, never breathless. You read "
+    "a LINEUP the way a critic reads a label's catalogue — what the bookers value, the "
+    "scenes and labels they trust, the throughlines between the names, the balance of "
+    "heavy-hitters and genuine deep cuts.\n\n"
+    "Write 2 short paragraphs (about 120-160 words total) interpreting THIS festival's "
+    "curation. Ground every claim in the data — the dominant labels, the genre balance, "
+    "the recurring scenes, the key names. Name the booking DNA (which labels/scenes this "
+    "lineup leans into) and call out a couple of the more obscure or adventurous picks. "
+    "Do not invent facts, do not list, no markdown or headers or bullets — just flowing "
+    "prose. Address the lineup itself, not the reader. Vary your sentence openings. End "
+    "on what kind of weekend this promises."
+)
+
+
 class StoryReq(BaseModel):
     facts: dict
+    mode: str = 'set'    # 'set' (a DJ set) or 'festival' (a whole lineup)
+
+
+def festival_prompt(f):
+    lines = [f"A festival lineup of {f.get('total', '?')} artists across "
+             f"{f.get('stages', '?')} stages."]
+    g = f.get('genres') or []
+    if g:
+        lines.append("Genre balance (artist counts): " + ", ".join(f"{n} ({c})" for n, c in g))
+    if f.get('labels'):
+        lines.append("Dominant labels (booking DNA): " + ", ".join(f['labels']))
+    if f.get('scenes'):
+        lines.append("Recurring scenes: " + "; ".join(f['scenes']))
+    if f.get('artists'):
+        lines.append("Central names: " + ", ".join(f['artists']))
+    if f.get('deepcuts'):
+        lines.append("More obscure / peripheral bookings: " + ", ".join(f['deepcuts']))
+    return "\n".join(lines)
 
 
 def story_prompt(f):
@@ -369,14 +404,16 @@ def story(req: StoryReq):
             {'error': 'no_sdk', 'message': 'Run: pip install anthropic'}, status_code=400)
 
     client = anthropic.Anthropic(api_key=key)
-    prompt = story_prompt(req.facts)
+    festival = (req.mode == 'festival')
+    prompt = festival_prompt(req.facts) if festival else story_prompt(req.facts)
+    system = FESTIVAL_SYSTEM if festival else STORY_SYSTEM
 
     def gen():
         try:
             with client.messages.stream(
                 model='claude-opus-4-8',
                 max_tokens=600,
-                system=STORY_SYSTEM,
+                system=system,
                 messages=[{'role': 'user', 'content': prompt}],
             ) as stream:
                 for text in stream.text_stream:
@@ -539,6 +576,11 @@ def sigma_page():
 @app.get('/globe')
 def globe_page():
     return FileResponse(os.path.join(APP_DIR, 'static', 'globe.html'))
+
+
+@app.get('/festival')
+def festival_page():
+    return FileResponse(os.path.join(APP_DIR, 'static', 'festival.html'))
 
 
 @app.get('/m')

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Festival Digest</title>
+<script src="https://www.youtube.com/iframe_api"></script>
+<style>
+  :root{ --bg:#0a0c10; --panel:#0f131a; --panel2:#141923; --line:#222734; --ink:#cfd6e6;
+         --mute:#8893a8; --dim:#5d6677; --accent:#35c9c0; --pink:#ff5da2; }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;
+       padding:0 0 120px}
+  a{color:inherit}
+  .wrap{max-width:1040px;margin:0 auto;padding:26px 22px}
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 22px;border-bottom:1px solid var(--line);padding-bottom:18px}
+  header.top h1{margin:0;font-size:30px;letter-spacing:-.4px}
+  header.top h1 small{display:block;font-size:12px;font-weight:500;color:var(--mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+  .stats{display:flex;gap:18px;color:var(--mute);font-size:12.5px;margin-left:auto}
+  .stats b{color:var(--ink);font-size:18px;font-weight:650;display:block;font-variant-numeric:tabular-nums}
+  .playall{background:var(--accent);color:#062b29;border:none;border-radius:22px;padding:10px 18px;font-weight:700;
+           font-size:13px;cursor:pointer;white-space:nowrap}
+  .playall:active{transform:translateY(1px)}
+  .nav{display:flex;gap:8px;margin:14px 0 2px;flex-wrap:wrap}
+  .nav a{font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:20px;padding:5px 12px;text-decoration:none}
+  .nav a:hover{color:var(--ink);border-color:var(--accent)}
+  section{margin-top:34px}
+  section>h2{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mute);margin:0 0 4px}
+  section>p.sub{margin:0 0 16px;color:var(--dim);font-size:12.5px;max-width:680px}
+  .read{font-size:15px;line-height:1.7;color:#dde3ef;white-space:pre-wrap;min-height:24px}
+  .read .cur{color:var(--dim)}
+  /* booking DNA */
+  .labels{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:9px}
+  .lab{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);
+       border-radius:11px;padding:10px 12px}
+  .lab .rank{color:var(--dim);font-size:12px;width:18px;font-variant-numeric:tabular-nums}
+  .lab .nm{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lab .ct{color:var(--mute);font-size:11.5px;white-space:nowrap}
+  .lab .pl{background:rgba(255,93,162,.14);border:1px solid rgba(255,93,162,.4);color:var(--pink);
+           border-radius:50%;width:28px;height:28px;font-size:12px;cursor:pointer;flex:0 0 auto}
+  .lab .pl:active{transform:scale(.92)}
+  /* scenes */
+  .scenes{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+  .scene{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 15px 13px;border-left:3px solid var(--dim)}
+  .scene .sh{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .scene .st{flex:1;min-width:0}
+  .scene .stt{font-weight:700;font-size:15px;letter-spacing:-.2px}
+  .scene .sm{color:var(--mute);font-size:11.5px;margin-top:1px}
+  .scene .play{background:var(--accent);color:#062b29;border:none;border-radius:18px;padding:6px 13px;font-weight:700;font-size:11.5px;cursor:pointer;white-space:nowrap}
+  .scene .play:active{transform:translateY(1px)}
+  .chips{display:flex;flex-wrap:wrap;gap:5px}
+  .chip{font-size:11.5px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+  .chip:hover{border-color:var(--accent)} .chip.more{color:var(--dim);cursor:default}
+  /* stages */
+  .stages{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}
+  .stg{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .stg h3{margin:0 0 6px;font-size:15px}
+  .stg .bars{display:flex;height:7px;border-radius:4px;overflow:hidden;margin:8px 0 7px;background:#0c0f15}
+  .stg .meta{color:var(--mute);font-size:11.5px}
+  /* standouts */
+  .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+  .col h3{font-size:12.5px;letter-spacing:.4px;color:var(--ink);margin:0 0 3px}
+  .col .h{color:var(--dim);font-size:11.5px;margin:0 0 9px}
+  .rowx{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(34,39,52,.5)}
+  .rowx .sw{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .rowx .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}
+  .rowx .nm small{color:var(--dim);font-size:11px}
+  .rowx .pl{background:none;border:1px solid var(--line);color:var(--mute);border-radius:50%;width:26px;height:26px;font-size:11px;cursor:pointer;flex:0 0 auto}
+  .rowx .pl.on{border-color:var(--accent);color:var(--accent)}
+  .loading{color:var(--mute);padding:60px 0;text-align:center}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;vertical-align:-2px;margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .err{color:#ff8a8a;padding:40px 0}
+  /* player bar */
+  #bar{position:fixed;left:0;right:0;bottom:0;background:rgba(11,14,20,.97);border-top:1px solid var(--line);
+       backdrop-filter:blur(12px);display:none;align-items:center;gap:14px;padding:10px 16px;z-index:40}
+  #bar.on{display:flex}
+  #pl-frame{width:130px;height:74px;border-radius:8px;overflow:hidden;background:#000;flex:0 0 auto}
+  #bar .now{flex:1;min-width:0}
+  #bar .nt{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #bar .na{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #bar button{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:13px}
+  #bar .q{color:var(--dim);font-size:11.5px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="boot" class="loading"><span class="spinner"></span><span id="boot-msg">Loading lineup…</span></div>
+  <div id="digest" style="display:none">
+    <header class="top">
+      <div><h1><small id="kicker">Festival digest</small><span id="fname">—</span></h1></div>
+      <div class="stats" id="stats"></div>
+      <button class="playall" id="playall">▶ Play all</button>
+    </header>
+    <div class="nav" id="nav"></div>
+
+    <section id="sec-read"><h2>The read</h2><div class="read" id="read"><span class="cur">writing…</span></div></section>
+
+    <section id="sec-labels"><h2>Booking DNA</h2>
+      <p class="sub">The labels this lineup leans on — how many booked artists release on each. The festival's taste, in catalogue form.</p>
+      <div class="labels" id="labels"></div></section>
+
+    <section id="sec-scenes"><h2>Scenes</h2>
+      <p class="sub">Sub-scenes the bookers pulled from, clustered by who connects to whom through shared labels and studio credits. Hit ▶ to play a scene end to end.</p>
+      <div class="scenes" id="scenes"></div></section>
+
+    <section id="sec-stages"><h2>Stages</h2>
+      <p class="sub">What each stage sounds like — its genre balance and where it leans.</p>
+      <div class="stages" id="stages"></div></section>
+
+    <section id="sec-standouts"><h2>Standouts</h2>
+      <div class="cols" id="standouts"></div></section>
+  </div>
+  <div id="err" class="err" style="display:none"></div>
+</div>
+
+<div id="bar">
+  <div id="pl-frame"></div>
+  <div class="now"><div class="nt" id="nt">—</div><div class="na" id="na"></div></div>
+  <span class="q" id="qinfo"></span>
+  <button id="prev">⏮</button><button id="next">⏭</button>
+  <button id="auto" class="on">⟳ Auto</button>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const PAL_FALLBACK={Other:'#5d6677'};
+let GRAPH=null, PALETTE=PAL_FALLBACK, BYID=new Map();
+
+// ---------- YouTube player (continuous autoplay, reused from globe) ----------
+let ytPlayer=null, apiReady=false, autoplay=true, pendingItem=null, errSkips=0;
+let QUEUE=[], qpos=-1;
+window.onYouTubeIframeAPIReady=()=>{ apiReady=true; if(pendingItem){ const it=pendingItem; pendingItem=null; loadInto(it); } };
+const _poll=setInterval(()=>{ if(window.YT&&window.YT.Player){ clearInterval(_poll); apiReady=true; if(pendingItem){ const it=pendingItem; pendingItem=null; loadInto(it); } } },400);
+function ytId(uri){ if(!uri) return null; const m=String(uri).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m?m[1]:null; }
+function playTracks(tracks,label){
+  const q=[]; (tracks||[]).forEach(t=>{ const id=ytId(t.youtube); if(id) q.push({id,title:t.title,ctx:t.artist||label||''}); });
+  if(!q.length){ flash('No playable tracks here.'); return; }
+  QUEUE=q; qpos=0; $('#bar').classList.add('on'); loadInto(QUEUE[0]); updQ();
+}
+function loadInto(item){
+  $('#nt').textContent=item.title||''; $('#na').textContent=item.ctx||'';
+  if(!apiReady||!window.YT||!window.YT.Player){ pendingItem=item; return; }
+  if(!ytPlayer){ ytPlayer=new YT.Player('pl-frame',{height:'74',width:'130',videoId:item.id,
+    playerVars:{autoplay:1,rel:0,playsinline:1,modestbranding:1},
+    events:{ onStateChange:e=>{ if(e.data===1) errSkips=0; if(e.data===0) advance(); }, onError:()=>{ errSkips++; if(errSkips<=QUEUE.length+1) advance(); } }}); }
+  else ytPlayer.loadVideoById(item.id);
+}
+function advance(){ if(!QUEUE.length) return; let i=qpos+1; if(i>=QUEUE.length){ if(!autoplay){updQ();return;} i=0; } qpos=i; loadInto(QUEUE[i]); updQ(); }
+function prev(){ if(!QUEUE.length) return; qpos=(qpos-1+QUEUE.length)%QUEUE.length; loadInto(QUEUE[qpos]); updQ(); }
+function updQ(){ $('#qinfo').textContent=QUEUE.length?`${qpos+1} / ${QUEUE.length}`:''; }
+$('#next').onclick=advance; $('#prev').onclick=prev;
+$('#auto').onclick=()=>{ autoplay=!autoplay; $('#auto').classList.toggle('on',autoplay); $('#auto').textContent=autoplay?'⟳ Auto':'⟳ Off'; };
+function flash(m){ $('#qinfo').textContent=m; setTimeout(updQ,1800); }
+
+// ---------- helpers ----------
+function mode(arr){ const m={}; let best=null,bc=0; arr.forEach(x=>{ if(x==null) return; m[x]=(m[x]||0)+1; if(m[x]>bc){bc=m[x];best=x;} }); return best; }
+function col(g){ return PALETTE[g]||PALETTE.Other||'#5d6677'; }
+function esc(s){ return (s==null?'':String(s)).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function artistTracks(node){ return node.tracks||[]; }
+
+// ---------- digest render ----------
+function renderDigest(g, fname){
+  GRAPH=g; PALETTE=g.palette||PAL_FALLBACK; BYID=new Map(g.nodes.map(n=>[n.id,n]));
+  const inset=g.nodes.filter(n=>n.role==='artist'||n.role==='remixer');
+  const labels=g.nodes.filter(n=>n.role==='label');
+  const playable=(g.tracklist||[]).filter(t=>ytId(t.youtube)).length;
+
+  // clusters
+  const byC={}; inset.forEach(n=>{ (byC[n.cluster]=byC[n.cluster]||[]).push(n); });
+  const labByC={}; labels.forEach(l=>{ (labByC[l.cluster]=labByC[l.cluster]||[]).push(l); });
+  let scenes=Object.entries(byC).map(([c,arts])=>{
+    arts.sort((a,b)=>b.resonance-a.resonance);
+    const genre=mode(arts.map(a=>a.genre==='Other'?null:a.genre))||mode(arts.map(a=>a.genre))||'Mixed';
+    const labs=(labByC[c]||[]).sort((a,b)=>(b.appearances||0)-(a.appearances||0));
+    return {arts, genre, sig:labs[0]?labs[0].label:null, size:arts.length, color:col(genre)};
+  }).filter(s=>s.size>=2).sort((a,b)=>b.size-a.size);
+
+  $('#fname').textContent=fname||'Festival';
+  $('#kicker').textContent='Festival digest';
+  document.title=(fname||'Festival')+' · digest';
+  $('#stats').innerHTML=[[inset.length,'artists'],[labels.length,'labels'],[scenes.length,'scenes'],[playable,'tracks']]
+    .map(([n,l])=>`<div><b>${n}</b>${l}</div>`).join('');
+
+  // nav
+  $('#nav').innerHTML=[['sec-read','The read'],['sec-labels','Booking DNA'],['sec-scenes','Scenes'],['sec-stages','Stages'],['sec-standouts','Standouts']]
+    .map(([id,t])=>`<a href="#${id}">${t}</a>`).join('');
+
+  // booking DNA
+  const topLabs=labels.slice().sort((a,b)=>(b.appearances||0)-(a.appearances||0)).slice(0,16);
+  $('#labels').innerHTML=topLabs.map((l,i)=>
+    `<div class="lab"><span class="rank">${i+1}</span><span class="nm" style="color:${col(l.genre)}">${esc(l.label)}</span>`+
+    `<span class="ct">${l.appearances||0} acts</span><button class="pl" data-lab="${l.id}">▶</button></div>`).join('')
+    || '<p class="sub">No shared labels surfaced.</p>';
+  $('#labels').querySelectorAll('.pl').forEach(b=>b.onclick=()=>{ const n=BYID.get(b.dataset.lab); if(n) playTracks(n.tracks,n.label); });
+
+  // scenes
+  $('#scenes').innerHTML=scenes.slice(0,12).map((s,i)=>{
+    const names=s.arts.slice(0,14);
+    const more=s.size-names.length;
+    return `<div class="scene" style="border-left-color:${s.color}">
+      <div class="sh"><div class="st"><div class="stt">${esc(s.genre)}${s.sig?` · ${esc(s.sig)}`:''}</div>
+        <div class="sm">${s.size} artists</div></div>
+        <button class="play" data-scene="${i}">▶ Play</button></div>
+      <div class="chips">${names.map(a=>`<span class="chip" data-id="${a.id}" style="border-color:${col(a.genre)}55">${esc(a.label)}</span>`).join('')}${more>0?`<span class="chip more">+${more}</span>`:''}</div>
+    </div>`;
+  }).join('');
+  $('#scenes').querySelectorAll('.play[data-scene]').forEach(b=>b.onclick=()=>{
+    const s=scenes[+b.dataset.scene]; playTracks(s.arts.flatMap(a=>a.tracks||[]), s.genre); });
+  $('#scenes').querySelectorAll('.chip[data-id]').forEach(c=>c.onclick=()=>{ const n=BYID.get(c.dataset.id); if(n) playTracks(n.tracks,n.label); });
+
+  // stages (from slots)
+  renderStages(inset);
+
+  // standouts
+  const hubs=inset.slice().sort((a,b)=>b.resonance-a.resonance).slice(0,12);
+  const radar=inset.filter(n=>(n.tracks||[]).some(t=>ytId(t.youtube))).slice().sort((a,b)=>a.resonance-b.resonance).slice(0,12);
+  const dig=(g.summary&&g.summary.discoveries||[]).slice(0,12);
+  const rowx=(n,sub)=>`<div class="rowx"><span class="sw" style="background:${col(n.genre)}"></span>`+
+    `<span class="nm">${esc(n.label)}${sub?` <small>${esc(sub)}</small>`:''}</span>`+
+    `<button class="pl${(n.tracks||[]).some(t=>ytId(t.youtube))?' on':''}" data-id="${n.id??''}">▶</button></div>`;
+  $('#standouts').innerHTML=
+    `<div class="col"><h3>Hubs</h3><p class="h">The names tying the lineup together — most connected in the booking.</p>${hubs.map(n=>rowx(n,slotShort(n))).join('')}</div>`+
+    `<div class="col"><h3>Under the radar</h3><p class="h">Booked deep — peripheral in this graph, worth a listen.</p>${radar.map(n=>rowx(n,slotShort(n))).join('')}</div>`+
+    `<div class="col"><h3>Dig next</h3><p class="h">Not on the lineup — names recurring across these artists' credits.</p>${dig.map(d=>`<div class="rowx"><span class="sw" style="background:${col(d.genre)}"></span><span class="nm">${esc(d.label)}</span></div>`).join('')}</div>`;
+  $('#standouts').querySelectorAll('.pl[data-id]').forEach(b=>b.onclick=()=>{ const n=BYID.get(b.dataset.id); if(n) playTracks(n.tracks,n.label); });
+
+  $('#playall').onclick=()=>playTracks(g.tracklist,'the lineup');
+  $('#boot').style.display='none'; $('#digest').style.display='block';
+  fetchRead(g, fname, scenes, topLabs, hubs, radar);
+}
+
+function slotShort(n){ const s=(n.slots&&n.slots[0]); if(!s) return ''; return [s.stage,s.day].filter(Boolean).join(' · '); }
+
+function renderStages(inset){
+  const stages={};
+  inset.forEach(n=>{ (n.slots||[]).forEach(s=>{ if(!s.stage) return;
+    const st=stages[s.stage]=stages[s.stage]||{n:0,gen:{}}; st.n++; st.gen[n.genre]=(st.gen[n.genre]||0)+1; }); });
+  const arr=Object.entries(stages).sort((a,b)=>b[1].n-a[1].n);
+  if(!arr.length){ $('#sec-stages').style.display='none'; return; }
+  $('#stages').innerHTML=arr.map(([name,st])=>{
+    const tot=Object.values(st.gen).reduce((a,b)=>a+b,0)||1;
+    const top=Object.entries(st.gen).sort((a,b)=>b[1]-a[1]);
+    const bars=top.map(([g,c])=>`<span style="width:${100*c/tot}%;background:${col(g)}"></span>`).join('');
+    const lead=top.slice(0,2).map(([g])=>g).join(', ');
+    return `<div class="stg"><h3>${esc(name)}</h3><div class="bars">${bars}</div><div class="meta">${st.n} sets · leans ${esc(lead)}</div></div>`;
+  }).join('');
+}
+
+// ---------- the AI read (streamed) ----------
+async function fetchRead(g, fname, scenes, topLabs, hubs, radar){
+  const inset=g.nodes.filter(n=>n.role==='artist'||n.role==='remixer');
+  const genCount={}; inset.forEach(n=>{ if(n.genre&&n.genre!=='Other') genCount[n.genre]=(genCount[n.genre]||0)+1; });
+  const genres=Object.entries(genCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const stageSet=new Set(); inset.forEach(n=>(n.slots||[]).forEach(s=>s.stage&&stageSet.add(s.stage)));
+  const facts={ total:inset.length, stages:stageSet.size||'several',
+    genres, labels:topLabs.slice(0,10).map(l=>l.label),
+    scenes:scenes.slice(0,6).map(s=>`${s.genre}${s.sig?' ('+s.sig+')':''}`),
+    artists:hubs.slice(0,8).map(n=>n.label),
+    deepcuts:radar.slice(0,6).map(n=>n.label) };
+  const el=$('#read'); el.textContent='';
+  try{
+    const r=await fetch('/api/story',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:'festival',facts})});
+    if(!r.ok){ const j=await r.json().catch(()=>({})); el.innerHTML=`<span class="cur">${esc(j.message||'The read needs ANTHROPIC_API_KEY in .env.')}</span>`; return; }
+    const reader=r.body.getReader(), dec=new TextDecoder();
+    for(;;){ const {value,done}=await reader.read(); if(done) break; el.textContent+=dec.decode(value,{stream:true}); }
+  }catch(e){ el.innerHTML='<span class="cur">The read is unavailable right now.</span>'; }
+}
+
+// ---------- boot: load lineup -> build -> render ----------
+async function boot(){
+  const qp=new URLSearchParams(location.search);
+  const demo=qp.get('demo')||'waking-life';
+  let acts=null, fname=null;
+  try{
+    const d=await (await fetch('/api/lineup_preset/'+encodeURIComponent(demo))).json();
+    if(d.error||!d.acts||!d.acts.length){ return fail('No lineup found for "'+demo+'". Upload a schema in the main app first.'); }
+    acts=d.acts; fname=d.festival||d.name;
+  }catch(e){ return fail('Could not load the lineup.'); }
+
+  $('#boot-msg').textContent='Building the scene graph…';
+  let jid;
+  try{ jid=(await (await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({lineup:acts})})).json()).job_id; }
+  catch(e){ return fail('Could not reach the server.'); }
+
+  const es=new EventSource('/api/progress/'+jid);
+  es.onmessage=async ev=>{ const d=JSON.parse(ev.data);
+    if(d.status==='error'){ es.close(); return fail(d.error||'Build failed.'); }
+    if(d.progress){ const p=d.progress; $('#boot-msg').textContent=`${p.stage}${p.total>1?` — ${p.i}/${p.total}`:''}…`; }
+    if(d.status==='done'){ es.close();
+      try{ const res=await (await fetch('/api/result/'+jid)).json(); renderDigest(res.graph, fname); }
+      catch(e){ fail('Could not load the result.'); } }
+  };
+  es.onerror=()=>{ es.close(); fail('Lost connection while building.'); };
+}
+function fail(m){ $('#boot').style.display='none'; const e=$('#err'); e.style.display='block'; e.textContent=m; }
+boot();
+</script>
+</body>
+</html>
