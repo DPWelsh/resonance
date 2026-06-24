@@ -494,6 +494,161 @@ def deep_enrich(rows, track_meta, ppl, edges, out_name, progress=None):
     print(f'[deep] label hubs={labels_kept}  bridge collaborators={bridges}  '
           f'people={len(ppl.by_key)}  edges={len(edges)}')
 
+def enrich_festival_tracks(ppl, edges, out_name, per_artist=3, progress=None):
+    """Artist-only (festival) playlist harvest. For each in-set artist, pull their
+    top `per_artist` releases (by community 'have') WITH videos, fold the release
+    credits into the graph as edges, and synthesize the track_meta + the v4 release
+    cache so the existing build_track_links / build_setlist / assign_genres all work
+    unchanged. Returns the synthesized track_meta list (ordered to match v4 cache i).
+
+    Resumable per ARTIST (a separate fest-cache); the v4 cache is rebuilt fresh each
+    run from that, so track indices stay stable across rebuilds."""
+    import requests
+    token = load_token()
+    cache_dir = os.path.join(ROOT, 'setlist_cache'); os.makedirs(cache_dir, exist_ok=True)
+    sig = hashlib.md5(out_name.encode()).hexdigest()[:8]
+    fest_path = os.path.join(cache_dir, f'{sig}_fest_v1.jsonl')   # per-artist chosen releases
+    done = {}
+    if os.path.exists(fest_path):
+        for line in open(fest_path):
+            try:
+                o = json.loads(line); done[o['key']] = o
+            except Exception:
+                pass
+
+    if token:
+        H = {'User-Agent': 'SetlistGraph/1.0 +daniel.welsh@routiq.ai',
+             'Authorization': f'Discogs token={token}'}
+
+        def api(url, params=None):
+            for _ in range(4):
+                r = requests.get(url, headers=H, params=params, timeout=30)
+                if r.status_code == 429:
+                    time.sleep(int(r.headers.get('Retry-After', '60'))); continue
+                if r.status_code >= 500:
+                    time.sleep(4); continue
+                if r.status_code == 404:
+                    return None
+                r.raise_for_status(); return r.json()
+            return None
+
+        targets = [(k, p['name']) for k, p in list(ppl.by_key.items())
+                   if p.get('kind', 'person') == 'person' and p['in_set']]
+        fh = open(fest_path, 'a')
+        for n, (k, name) in enumerate(targets, 1):
+            if progress:
+                progress('Digging top tracks per artist', n, len(targets))
+            if k in done:
+                continue
+            rec = {'key': k, 'name': name, 'releases': []}
+            try:
+                # prefer the artist id deep_enrich already resolved (robust to casing
+                # like 'DJRUM'); the name-filtered release search is brittle.
+                aid = ppl.by_key[k].get('discogs_id')
+                if not aid:
+                    time.sleep(1.1)
+                    sr = api('https://api.discogs.com/database/search',
+                             {'q': name, 'type': 'artist', 'per_page': 5})
+                    sres = (sr or {}).get('results') or []
+                    nk = norm_key(name)
+                    pk = next((x for x in sres if norm_key(x.get('title', '')) == nk), None) \
+                        or (sres[0] if sres else None)
+                    aid = pk.get('id') if pk else None
+
+                picks, seen_title = [], set()      # release ids to fetch; de-dupe by title
+                if aid:
+                    time.sleep(1.1)
+                    al = api(f"https://api.discogs.com/artists/{aid}/releases",
+                             {'per_page': 75, 'sort': 'year', 'sort_order': 'desc'})
+                    items = [it for it in ((al or {}).get('releases') or [])
+                             if (it.get('role') or '') == 'Main' and it.get('title')]
+
+                    def pop(it):  # popularity proxy: community collection count, else recency
+                        return ((it.get('stats') or {}).get('community') or {}).get('in_collection', 0) or 0
+                    items.sort(key=lambda it: (-pop(it), -(it.get('year') or 0)))
+                    for it in items:
+                        tk = norm_key(it.get('title', ''))
+                        if tk in seen_title:
+                            continue
+                        seen_title.add(tk)
+                        picks.append(it.get('main_release') or it.get('id'))  # master -> main release
+                        if len(picks) >= per_artist:
+                            break
+                else:   # fallback: free-text release search, most-collected first
+                    time.sleep(1.1)
+                    data = api('https://api.discogs.com/database/search',
+                               {'q': name, 'type': 'release', 'per_page': 30})
+                    res = [x for x in ((data or {}).get('results') or []) if x.get('id')]
+                    res.sort(key=lambda x: -((x.get('community') or {}).get('have', 0)))
+                    for x in res:
+                        tk = norm_key(x.get('title', ''))
+                        if tk in seen_title:
+                            continue
+                        seen_title.add(tk); picks.append(x['id'])
+                        if len(picks) >= per_artist:
+                            break
+
+                for rid in picks:
+                    time.sleep(1.1)
+                    rel = api(f"https://api.discogs.com/releases/{rid}")
+                    if not rel:
+                        continue
+                    labs = [l.get('name') for l in (rel.get('labels') or []) if l.get('name')]
+                    credits = []
+                    for a in (rel.get('extraartists') or []):
+                        nm = (a.get('name') or '').strip()
+                        if nm and nm.lower() not in ('various',):
+                            credits.append({'name': re.sub(r'\s*\(\d+\)$', '', nm),
+                                            'role': a.get('role') or ''})
+                    rec['releases'].append({
+                        'release_id': rid,
+                        'release_url': f"https://www.discogs.com/release/{rid}",
+                        'release_title': rel.get('title'),
+                        'year': rel.get('year'),
+                        'label': labs[0] if labs else None,
+                        'genres': rel.get('genres') or [],
+                        'styles': rel.get('styles') or [],
+                        'videos': [{'uri': v.get('uri'), 'title': v.get('title')}
+                                   for v in (rel.get('videos') or []) if v.get('uri')][:5],
+                        'credits': credits,
+                    })
+            except Exception as e:
+                rec['error'] = f'{type(e).__name__}: {e}'
+            fh.write(json.dumps(rec, ensure_ascii=False) + '\n'); fh.flush()
+            done[k] = rec
+            if n % 10 == 0:
+                print(f'[fest] {n}/{len(targets)} artists dug', flush=True)
+        fh.close()
+    else:
+        print('[fest] no Discogs token; playlist will be empty')
+
+    # synthesize track_meta + the v4 release cache (rebuilt fresh, stable artist order)
+    v4_path = os.path.join(cache_dir, f'{sig}_v4.jsonl')
+    track_meta = []
+    # snapshot the artist set BEFORE the loop — credit folding adds new nodes to ppl
+    artist_keys = [(k, p) for k, p in ppl.by_key.items()
+                   if p.get('kind', 'person') == 'person' and p['in_set']]
+    with open(v4_path, 'w') as fh:
+        i = 0
+        for k, p in artist_keys:
+            o = done.get(k) or {}
+            for rel in o.get('releases', []):
+                track_meta.append({'title': rel.get('release_title') or '', 'keys': [k],
+                                   'genre': 'Other', 'album': '',
+                                   'artist_raw': p['name'], 'date': str(rel.get('year') or '')})
+                fh.write(json.dumps({'i': i, **rel, 'genres': rel.get('genres', []),
+                                     'styles': rel.get('styles', [])}, ensure_ascii=False) + '\n')
+                i += 1
+                # fold the release's real co-credits into the graph as edges
+                for c in rel.get('credits', []):
+                    ck = ppl.touch(c['name'], in_set=False)
+                    if ck and ck != k:
+                        e = (min(k, ck), max(k, ck))
+                        edges[e] = max(edges[e], role_w(c['role']))
+    print(f'[fest] synthesized {len(track_meta)} playlist tracks from '
+          f'{sum(1 for _ in done)} artists')
+    return track_meta
+
 # ----------------------------------------------------------------- genres + layout
 def assign_genres(ppl, edges, track_meta, out_name):
     """Assign each artist a Discogs style (from matched releases); labels & discovered

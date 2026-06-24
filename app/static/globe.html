@@ -70,7 +70,7 @@
   .dt-chip .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .dt-chip .w{color:#5a6172;font-size:10.5px}
   .dt-links{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 2px}
   .lnk{font-size:11.5px;padding:6px 11px;border-radius:7px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
-  .lnk:hover{border-color:var(--accent)} .lnk.discogs{color:#d7c6ff} .lnk.bc{color:#62b0d6} .lnk.yt{color:#ff8a8a}
+  .lnk:hover{border-color:var(--accent)} .lnk.discogs{color:#d7c6ff} .lnk.bc{color:#62b0d6} .lnk.yt{color:#ff8a8a} .lnk.sc{color:#ff9a52}
   #dt-player{margin:14px 0 6px} #dt-player iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:8px}
   .trk{display:flex;align-items:center;gap:9px;padding:5px 4px;font-size:12.5px}
   .play{background:var(--accent);color:#04201d;border:0;width:24px;height:24px;border-radius:50%;font-size:9px;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
@@ -128,6 +128,14 @@
   #st-x{background:none;border:0;color:var(--mute);font-size:18px;cursor:pointer} #st-x:hover{color:var(--ink)}
   #story-body{padding:4px 18px 22px}
   .st-lead{font-size:14px;line-height:1.6;color:#ccd3e1;margin:0 0 6px} .st-lead b{color:#fff;font-weight:600}
+  .st-lead.gen{color:#828b9f;font-style:italic}
+  .st-readtag{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--accent);margin:0 0 9px}
+  .st-readtag .rgen{margin-left:auto;letter-spacing:.2px;text-transform:none;font-size:11px;color:var(--mute);cursor:pointer;border:1px solid var(--line);border-radius:11px;padding:2px 10px;background:none}
+  .st-readtag .rgen:hover{color:var(--ink);border-color:var(--mute)} .st-readtag .rgen[disabled]{opacity:.4;cursor:default}
+  .st-note{display:block;margin-top:9px;font-size:11px;font-style:normal;color:#6b7280}
+  .st-note:empty{display:none}
+  .st-cursor{display:inline-block;width:6px;height:14px;background:var(--accent);margin-left:1px;vertical-align:-2px;animation:stblink 1s steps(2,start) infinite}
+  @keyframes stblink{0%,50%{opacity:1}51%,100%{opacity:0}}
   .st-h{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}
   .st-meta{font-size:12.5px;color:#aeb6c8} .st-meta b{color:var(--ink)}
   .arc{display:flex;gap:1px;height:26px;border-radius:5px;overflow:hidden}
@@ -148,12 +156,12 @@
     <div class="pad">
       <h1>Setlist <small>Globe</small></h1>
       <p class="sub">Your scene as a spinning 3D constellation. Drag to <b>spin</b>, scroll to zoom, click a node (or a table row) to fly to it.</p>
-      <textarea id="ta" placeholder="One track per line: Artist &lt;tab&gt; Title"></textarea>
+      <textarea id="ta" placeholder="Paste a setlist — one track per line: Artist &lt;tab&gt; Title&#10;…or drop a SoundCloud / 1001tracklists link and we'll read the tracklist."></textarea>
       <div class="presets" id="presets"><span class="plabel">Preloaded sets</span></div>
       <div class="row">
         <button id="go">Build globe</button>
         <label class="toggle"><input type="checkbox" id="deep" checked/> deep</label>
-        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv"/></label>
+        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv,image/*"/></label>
       </div>
       <div id="prog"><div class="lbl">…</div><div class="bar"><div class="fill" id="pfill"></div></div></div>
       <div id="err"></div>
@@ -300,15 +308,71 @@ const hexA=(hex,a)=>{const h=hex.replace('#','');const n=parseInt(h.length===3?h
   return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;};
 function ytId(uri){ if(!uri) return null; const m=String(uri).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m?m[1]:null; }
 
-$('#file').addEventListener('change',async e=>{const f=e.target.files[0]; if(f)$('#ta').value=await f.text();});
+let LINEUP=null;   // festival acts (stage/day/time) when a schema image was uploaded
+$('#file').addEventListener('change',async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  if(f.type.startsWith('image/')){
+    $('#err').style.display='none'; $('#prog').style.display='block'; setProg('Reading lineup image…',8);
+    try{ const fd=new FormData(); fd.append('file',f);
+      const d=await (await fetch('/api/lineup',{method:'POST',body:fd})).json();
+      if(d.error){ showErr(d.message||'Could not read that image.'); $('#prog').style.display='none'; return; }
+      LINEUP=d.acts; $('#ta').value=d.setlist;
+      setProg(`Read ${d.count} acts${d.festival?` — ${d.festival}`:''}. Hit Build globe.`,100);
+      setTimeout(()=>$('#prog').style.display='none',1400);
+    }catch(err){ showErr('Could not read that image.'); $('#prog').style.display='none'; }
+    return; }
+  LINEUP=null; $('#ta').value=await f.text();
+});
+$('#ta').addEventListener('input',()=>{ LINEUP=null; });
 $('#go').addEventListener('click',build);
 
+function hostOf(t){ try{ return new URL(t.trim()).host.toLowerCase(); }catch(e){ return ''; } }
+function isImportUrl(t){
+  t=(t||'').trim();
+  if(/\n/.test(t)||!/^https?:\/\//i.test(t)) return false;
+  const h=hostOf(t); return ['1001tracklists','soundcloud.com','snd.sc'].some(s=>h.includes(s));
+}
+// SoundCloud -> identify by audio (Shazam) with live progress; resolves to tracklist text
+function shazamMix(url){
+  return new Promise((resolve,reject)=>{
+    fetch('/api/shazam',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})})
+      .then(r=>r.json()).then(({job_id})=>{
+        const es=new EventSource(`/api/progress/${job_id}`);
+        es.onmessage=async ev=>{ const d=JSON.parse(ev.data);
+          if(d.status==='error'){ es.close(); reject(new Error(d.error||'Recognition failed.')); return; }
+          if(d.progress){ const p=d.progress; setProg(`${p.stage}${p.total>1?` — ${p.i}/${p.total}`:'…'}`, p.total?Math.round(100*p.i/p.total):8); }
+          if(d.status==='done'){ es.close();
+            try{ const res=await (await fetch(`/api/shazam_result/${job_id}`)).json(); resolve(res.tracks||''); }
+            catch(e){ reject(new Error('Could not fetch the recognised tracks.')); } }
+        };
+        es.onerror=()=>{ es.close(); reject(new Error('Lost connection while listening to the mix.')); };
+      }).catch(()=>reject(new Error('Could not reach server.')));
+  });
+}
+async function resolveLink(url){
+  const h=hostOf(url);
+  if(h.includes('soundcloud')||h.includes('snd.sc')) return await shazamMix(url);   // audio Shazam
+  const r=await fetch('/api/resolve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+  if(!r.ok){ const j=await r.json().catch(()=>({})); throw new Error(j.message||'Could not read that link.'); }
+  return (await r.json()).tracks;                  // 1001tracklists (synchronous)
+}
 async function build(){
-  const setlist=$('#ta').value.trim(); if(!setlist){showErr('Paste a setlist first.');return;}
-  $('#err').style.display='none'; $('#go').disabled=true; $('#prog').style.display='block'; setProg('Starting…',4);
+  let setlist=$('#ta').value.trim();
+  if(!setlist){showErr('Paste a setlist — or a SoundCloud / 1001tracklists link.');return;}
+  $('#err').style.display='none'; $('#go').disabled=true; $('#prog').style.display='block';
+  if(isImportUrl(setlist)){                       // resolve a pasted link into a tracklist first
+    setProg('Reading the link…',8);
+    try{
+      setlist=await resolveLink(setlist);
+      if(!setlist || !setlist.trim()) throw new Error('No tracks found at that link.');
+      $('#ta').value=setlist;                     // show the recognised tracklist
+      setProg(`Imported ${setlist.split('\n').filter(Boolean).length} tracks`,22);
+    }catch(e){ showErr(e.message); $('#go').disabled=false; $('#prog').style.display='none'; return; }
+  } else { setProg('Starting…',4); }
   let jid;
-  try{ jid=(await (await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({setlist,deep:$('#deep').checked})})).json()).job_id; }
+  try{ const body=LINEUP?{lineup:LINEUP}:{setlist,deep:$('#deep').checked};
+    jid=(await (await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)})).json()).job_id; }
   catch(e){ showErr('Could not reach server.'); $('#go').disabled=false; return; }
   const es=new EventSource(`/api/progress/${jid}`);
   es.onmessage=async ev=>{ const d=JSON.parse(ev.data);
@@ -402,7 +466,8 @@ function openDetail(node){
   const linksHtml = `<div class="dt-links">`+
     `<a class="lnk discogs" target="_blank" href="${dUrl}">Discogs ↗</a>`+
     `<a class="lnk bc" target="_blank" href="https://bandcamp.com/search?q=${enc(node.label)}">Bandcamp ↗</a>`+
-    `<a class="lnk yt" target="_blank" href="https://www.youtube.com/results?search_query=${enc(node.label)}">YouTube ↗</a></div>`;
+    `<a class="lnk yt" target="_blank" href="https://www.youtube.com/results?search_query=${enc(node.label)}">YouTube ↗</a>`+
+    `<a class="lnk sc" target="_blank" href="https://soundcloud.com/search${node.role==='artist'||node.role==='remixer'?'/people':''}?q=${enc(node.label)}">SoundCloud ↗</a></div>`;
   const trks = node.tracks||[];
   let tracksHtml='';
   if(trks.length){
@@ -411,11 +476,16 @@ function openDetail(node){
         return `<div class="trk">${id?`<button class="play" data-i="${ix}">▶</button>`:`<span class="play off">·</span>`}`+
           `<span class="tnm">${t.title}</span>${t.discogs?`<a class="tlnk" target="_blank" href="${t.discogs}">↗</a>`:''}</div>`; }).join('')+`</div>`;
   }
+  const slotHtml=(node.slots&&node.slots.length)
+    ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px">`+node.slots.map(s=>
+        `<span style="font-size:11px;background:rgba(255,93,162,.14);border:1px solid rgba(255,93,162,.42);color:#ffb3d4;border-radius:20px;padding:3px 10px">`+
+        `${[s.stage,s.day,s.start].filter(Boolean).join(' · ')}${s.live?' · live':''}</span>`).join('')+`</div>`
+    : '';
   const nb=neighborsOf(node.id);
   const labels=nb.filter(x=>x.n.role==='label');
   const persons=nb.filter(x=>x.n.role==='artist'||x.n.role==='remixer');
   const disc=nb.filter(x=>x.n.role==='discovered');
-  let body=linksHtml+tracksHtml;
+  let body=slotHtml+linksHtml+tracksHtml;
   if(node.role==='label'){
     body+=group('Artists on this label','Set artists who release on (or are credit-linked to) this label — the roster that gives it this sound.',persons.concat(disc));
   } else if(node.role==='discovered'){
@@ -471,8 +541,9 @@ function buildStory(){
     labels:((SUMMARY&&SUMMARY.labels)||[]).slice(0,4).map(x=>x.label), artists:((SUMMARY&&SUMMARY.artists)||[]).slice(0,5).map(x=>x.label),
     tl, dated:years.length};
 }
-function renderStory(){
-  const s=buildStory(); const lead=s.genres[0]?s.genres[0][0]:'electronic';
+// templated read — instant, also the fallback when the AI is unavailable
+function templateLead(s){
+  const lead=s.genres[0]?s.genres[0][0]:'electronic';
   let n=`A <b>${s.total}-track</b> set, led by <b>${lead}</b>`;
   if(s.genres[1]) n+=` with <b>${s.genres[1][0]}</b>${s.genres[2]?` and ${s.genres[2][0]}`:''} threads`;
   n+='. ';
@@ -482,16 +553,51 @@ function renderStory(){
   if(s.open&&s.close&&s.open!==s.close) n+=`It opens <b>${s.open}</b>, ${s.mid&&s.mid!==s.open&&s.mid!==s.close?`pushes through <b>${s.mid}</b>, `:''}and lands in <b>${s.close}</b>.`;
   else if(s.open) n+=`Anchored in <b>${s.open}</b> throughout.`;
   if(s.labels.length) n+=` Built around <b>${s.labels.slice(0,3).join('</b>, <b>')}</b>.`;
+  return n;
+}
+let STORY_CACHE={};
+function storyKey(s){ return s.total+'|'+((s.tl[0]||{}).title||'')+'|'+((s.tl[s.tl.length-1]||{}).title||''); }
+function renderStory(){
+  const s=buildStory();
   const totG=s.genres.reduce((a,b)=>a+b[1],0)||1;
   const bar=s.genres.slice(0,7).map(([g,c])=>`<div class="gbar"><span class="gname">${g}</span><span class="gtrack"><span class="gfill" style="width:${Math.round(100*c/totG)}%;background:${PAL[g]||PAL.Other}"></span></span><span class="gpct">${Math.round(100*c/totG)}%</span></div>`).join('');
   const strip=s.tl.map(t=>`<span class="seg" style="background:${PAL[t.genre]||PAL.Other}" title="${t.idx+1}. ${t.title} — ${t.artist}${t.year?' ('+t.year+')':''}"></span>`).join('');
   document.getElementById('story-body').innerHTML=
-    `<p class="st-lead">${n}</p>`+
+    `<div class="st-readtag">✦ the read <button class="rgen" id="st-regen" title="Write it again">↻ rewrite</button></div>`+
+    `<p class="st-lead gen" id="st-read"></p>`+
     `<div class="st-h">The arc</div><div class="arc">${strip}</div><div class="arc-cap">opening → closing · each block a track, coloured by genre</div>`+
     `<div class="st-h">Genres</div>${bar}`+
     (s.ymin?`<div class="st-h">Era</div><div class="st-meta"><b>${s.ymin}–${s.ymax}</b> &nbsp;·&nbsp; ${s.dated}/${s.total} tracks dated</div>`:'')+
     (s.artists.length?`<div class="st-h">Key names</div><div class="st-meta">${s.artists.join(' &nbsp;·&nbsp; ')}</div>`:'');
+  $('#st-regen').addEventListener('click',()=>{ delete STORY_CACHE[storyKey(s)]; loadRead(s,true); });
+  loadRead(s,false);
 }
+async function loadRead(s,force){
+  const el=document.getElementById('st-read'); if(!el) return;
+  const regen=document.getElementById('st-regen'); const key=storyKey(s);
+  if(!force && STORY_CACHE[key]){ el.classList.remove('gen'); el.innerHTML=STORY_CACHE[key]; return; }
+  el.classList.add('gen'); el.innerHTML='Reading the set…<span class="st-cursor"></span>';
+  if(regen) regen.disabled=true;
+  const facts={total:s.total,genres:s.genres,ymin:s.ymin,ymax:s.ymax,older:s.older,dated:s.dated,
+    open:s.open,mid:s.mid,close:s.close,labels:s.labels,artists:s.artists,
+    tracks:s.tl.map(t=>({artist:t.artist,title:t.title,year:t.year,genre:t.genre}))};
+  try{
+    const r=await fetch('/api/story',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({facts})});
+    if(!r.ok){ const j=await r.json().catch(()=>({})); throw new Error(j.message||'unavailable'); }
+    const reader=r.body.getReader(), dec=new TextDecoder(); let acc='';
+    el.textContent='';
+    while(true){ const {done,value}=await reader.read(); if(done) break;
+      acc+=dec.decode(value,{stream:true});
+      el.innerHTML=esc(acc)+'<span class="st-cursor"></span>'; el.scrollTop=el.scrollHeight; }
+    el.classList.remove('gen');
+    const html=esc(acc.trim()).replace(/\n\n+/g,'<br><br>');
+    STORY_CACHE[key]=html; el.innerHTML=html;
+  }catch(err){
+    el.classList.remove('gen');
+    el.innerHTML=templateLead(s)+`<span class="st-note">${/ANTHROPIC|\.env/i.test(err.message)?'AI read off — add ANTHROPIC_API_KEY to .env':''}</span>`;
+  }finally{ if(regen) regen.disabled=false; }
+}
+function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 $('#tb-story').addEventListener('click',()=>{ const o=$('#story').classList.toggle('open'); $('#tb-story').classList.toggle('on',o); if(o) renderStory(); });
 $('#st-x').addEventListener('click',()=>{ $('#story').classList.remove('open'); $('#tb-story').classList.remove('on'); });
 // hold Space → drag to pan (Figma-style), instead of rotate
@@ -512,10 +618,15 @@ document.addEventListener('keyup',e=>{
 async function loadPresets(){
   try{const ps=await (await fetch('/api/presets')).json();const box=$('#presets');
     ps.forEach(p=>{const c=document.createElement('div');c.className='chip';c.innerHTML=`${p.name} <span class="n">${p.tracks}</span>`;
-      c.onclick=async()=>{const d=await (await fetch('/api/preset/'+p.id)).json();$('#ta').value=d.content;build();};box.appendChild(c);});
+      c.onclick=async()=>{const d=await (await fetch('/api/preset/'+p.id)).json();LINEUP=null;$('#ta').value=d.content;build();};box.appendChild(c);});
   }catch(e){}
 }
 loadPresets();
+// ?demo=waking-life -> one-click festival lineup (cached after first build)
+(function(){ const demo=new URLSearchParams(location.search).get('demo'); if(!demo) return;
+  fetch('/api/lineup_preset/'+encodeURIComponent(demo)).then(r=>r.json()).then(d=>{
+    if(d.error||!d.acts||!d.acts.length) return;
+    LINEUP=d.acts; if($('#ta'))$('#ta').value=d.setlist||''; build(); }).catch(()=>{}); })();
 </script>
 </body>
 </html>

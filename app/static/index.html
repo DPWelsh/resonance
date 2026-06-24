@@ -90,7 +90,7 @@
       <div class="row">
         <button id="go">Build graph</button>
         <label class="toggle"><input type="checkbox" id="deep" checked/> deep (Discogs)</label>
-        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv"/></label>
+        <label class="file-lbl">upload<input type="file" id="file" accept=".txt,.csv,.tsv,image/*"/></label>
       </div>
       <div id="prog"><div class="lbl">…</div><div class="bar"><div class="fill" id="pfill"></div></div></div>
       <div id="err"></div>
@@ -121,11 +121,26 @@
 <script>
 const $ = s => document.querySelector(s);
 let network = null, nodesDS = null;
+let LINEUP = null;   // festival acts (stage/day/time) when a schema image was uploaded
 
 $('#file').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
-  $('#ta').value = await f.text();
+  if (f.type.startsWith('image/')){
+    $('#err').style.display='none'; $('#prog').style.display='block';
+    setProg('Reading lineup image…', 8);
+    try{
+      const fd = new FormData(); fd.append('file', f);
+      const d = await (await fetch('/api/lineup', {method:'POST', body:fd})).json();
+      if (d.error){ showErr(d.message||'Could not read that image.'); $('#prog').style.display='none'; return; }
+      LINEUP = d.acts; $('#ta').value = d.setlist;
+      setProg(`Read ${d.count} acts${d.festival?` — ${d.festival}`:''}. Hit Build graph.`, 100);
+      setTimeout(()=>{ $('#prog').style.display='none'; }, 1400);
+    }catch(err){ showErr('Could not read that image.'); $('#prog').style.display='none'; }
+    return;
+  }
+  LINEUP = null; $('#ta').value = await f.text();
 });
+$('#ta').addEventListener('input', ()=>{ LINEUP = null; });
 
 $('#go').addEventListener('click', build);
 
@@ -138,8 +153,9 @@ async function build(){
   setProg('Starting…', 0);
   let jid;
   try{
+    const body = LINEUP ? {lineup: LINEUP} : {setlist, deep: $('#deep').checked};
     const r = await fetch('/api/build', {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({setlist, deep: $('#deep').checked})});
+      body: JSON.stringify(body)});
     jid = (await r.json()).job_id;
   }catch(e){ showErr('Could not reach server.'); $('#go').disabled=false; return; }
 
@@ -160,6 +176,8 @@ async function build(){
   es.onerror = ()=>{ es.close(); $('#go').disabled=false; };
 }
 
+function slotText(n){ if(!n.slots||!n.slots.length) return '';
+  return '\n'+n.slots.map(s=>[s.stage,s.day,s.start].filter(Boolean).join(' · ')+(s.live?' (live)':'')).join('\n'); }
 function setProg(label, pct){ document.querySelector('#prog .lbl').textContent=label; $('#pfill').style.width=pct+'%'; }
 function showErr(m){ const e=$('#err'); e.textContent=m; e.style.display='block'; }
 
@@ -168,7 +186,7 @@ function render(g, tracks){
   // nodes
   const nodes = g.nodes.map(n => ({
     id:n.id, label:(n.role==='discovered' && n.resonance<22) ? '' : n.label,
-    title:`${n.label}\n${n.role}${n.role!=='label'?' · '+n.genre:''} · resonance ${Math.round(n.resonance)}`,
+    title:`${n.label}\n${n.role}${n.role!=='label'?' · '+n.genre:''} · resonance ${Math.round(n.resonance)}`+slotText(n),
     x:n.x, y:n.y, fixed:{x:false,y:false},
     shape: n.role==='label' ? 'square' : 'dot',
     size: Math.max(5, n.size*1.15) + (n.role==='label'?2:0),
@@ -249,12 +267,17 @@ async function loadPresets(){
       const c=document.createElement('div'); c.className='chip';
       c.innerHTML=`${p.name} <span class="n">${p.tracks}</span>`;
       c.onclick=async()=>{ const d=await (await fetch('/api/preset/'+p.id)).json();
-        $('#ta').value=d.content; build(); };
+        LINEUP=null; $('#ta').value=d.content; build(); };
       box.appendChild(c);
     });
   }catch(e){}
 }
 loadPresets();
+// ?demo=waking-life -> one-click festival lineup (cached after first build)
+(function(){ const demo=new URLSearchParams(location.search).get('demo'); if(!demo) return;
+  fetch('/api/lineup_preset/'+encodeURIComponent(demo)).then(r=>r.json()).then(d=>{
+    if(d.error||!d.acts||!d.acts.length) return;
+    LINEUP=d.acts; $('#ta').value=d.setlist||''; build(); }).catch(()=>{}); })();
 </script>
 </body>
 </html>
