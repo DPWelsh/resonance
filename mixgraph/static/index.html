@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MIXGRAPH · underground broadcast console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0b09; --bg2:#100e0b; --panel:#15120d; --panel2:#1c1812;
+    --line:#2b241a; --line2:#3a3122; --ink:#efe7d6; --mute:#938a79; --dim:#6a6253;
+    --amber:#f3b41a; --amber2:#ffd56b; --cyan:#74d3c2; --hot:#ff6a45; --green:#9bd06a;
+    --mono:'DM Mono',ui-monospace,monospace; --disp:'Bricolage Grotesque',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:14px}
+  body{
+    min-height:100vh;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(243,180,26,.07), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);
+  }
+  /* film grain */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amber);color:#1a1407}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px 120px}
+
+  /* ---- header ---- */
+  header.top{display:flex;align-items:baseline;gap:18px;padding:30px 0 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .mark{font-family:var(--disp);font-weight:800;font-size:34px;letter-spacing:-1.4px;line-height:.9;color:var(--ink)}
+  .mark b{color:var(--amber)}
+  .onair{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:2.5px;color:var(--hot);text-transform:uppercase}
+  .onair .dot{width:8px;height:8px;border-radius:50%;background:var(--hot);box-shadow:0 0 10px var(--hot);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .stats{margin-left:auto;display:flex;gap:20px;color:var(--mute);font-size:11px;letter-spacing:.5px}
+  .stats b{color:var(--ink);font-weight:500}
+  .tagline{width:100%;color:var(--dim);font-size:12px;letter-spacing:.4px;padding-top:8px}
+  .tagline b{color:var(--cyan);font-weight:400}
+
+  /* ---- search ---- */
+  .tuner{position:relative;margin:30px 0 12px}
+  .tuner .cue{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--amber);font-size:15px}
+  #q{width:100%;background:var(--panel);border:1px solid var(--line2);border-radius:3px;color:var(--ink);
+     font-family:var(--mono);font-size:17px;padding:17px 18px 17px 40px;outline:none;letter-spacing:.3px}
+  #q::placeholder{color:var(--dim)} #q:focus{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),0 0 26px rgba(243,180,26,.12)}
+  #drop{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--panel2);border:1px solid var(--line2);
+        border-radius:3px;z-index:40;overflow:hidden;display:none;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+  #drop .row{display:flex;justify-content:space-between;padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--line)}
+  #drop .row:hover,#drop .row.on{background:var(--panel);color:var(--amber)}
+  #drop .row .n{color:var(--dim);font-size:11px}
+  .hint{color:var(--dim);font-size:11.5px;letter-spacing:.5px;margin-bottom:40px}
+  .hint b{color:var(--mute);cursor:pointer}.hint b:hover{color:var(--amber)}
+
+  /* ---- dossier ---- */
+  #stage{min-height:200px}
+  .empty{padding:90px 0;text-align:center;color:var(--dim);font-size:13px;letter-spacing:1px}
+  .empty .big{font-family:var(--disp);font-weight:700;font-size:22px;color:var(--mute);letter-spacing:-.5px;margin-bottom:12px}
+  .dname{font-family:var(--disp);font-weight:800;font-size:clamp(40px,7vw,76px);letter-spacing:-2.5px;line-height:.92;margin:6px 0 6px}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--mute);font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+  .meta b{color:var(--amber);font-weight:500}
+  .meta .k{color:var(--cyan);font-weight:500}
+
+  section.blk{margin-top:42px}
+  h2.lbl{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);
+    margin:0 0 16px;display:flex;align-items:center;gap:12px}
+  h2.lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+  h2.lbl .c{color:var(--amber)}
+
+  /* trajectory */
+  #traj{width:100%;background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);border-radius:4px;display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:10.5px;color:var(--mute)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+  .tip{position:fixed;z-index:60;background:#1c1712;border:1px solid var(--line2);border-radius:3px;padding:7px 10px;
+    font-size:11.5px;pointer-events:none;display:none;max-width:280px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+  .tip .t{color:var(--ink)} .tip .s{color:var(--amber)} .tip .d{color:var(--dim);font-size:10px}
+
+  /* pitch list */
+  .pitch{display:flex;flex-direction:column;gap:7px}
+  .prow{display:grid;grid-template-columns:26px 1fr 120px;align-items:center;gap:14px;background:var(--panel);
+    border:1px solid var(--line);border-left:2px solid var(--amber);border-radius:3px;padding:11px 15px;cursor:pointer;transition:.12s}
+  .prow:hover{background:var(--panel2);border-left-color:var(--amber2);transform:translateX(2px)}
+  .prow .rk{color:var(--dim);font-size:12px}
+  .prow .nm{font-size:15px;letter-spacing:.2px}
+  .prow .nm small{color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:1px;margin-left:8px}
+  .prow .bar{height:8px;background:#241d14;border-radius:2px;overflow:hidden;position:relative}
+  .prow .bar i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:2px}
+  .prow .sig{color:var(--amber);font-size:10px;text-align:right;letter-spacing:1px}
+
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line2);border-radius:20px;
+    padding:7px 14px;cursor:pointer;font-size:13px;transition:.12s}
+  .chip:hover{border-color:var(--cyan);color:var(--cyan)}
+  .chip .x{color:var(--dim);font-size:11px}
+  .chip.ser{border-radius:3px;border-left:2px solid var(--cyan)}
+
+  .loading{padding:80px 0;text-align:center;color:var(--amber);letter-spacing:3px;font-size:12px;animation:pulse 1.2s infinite}
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:10.5px;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="mark">MIX<b>GRAPH</b></div>
+    <span class="onair"><span class="dot"></span>on air</span>
+    <div class="stats" id="stats"></div>
+    <div class="tagline">the underground mix-series graph — who played where, and the shows an artist should be on next. <b>booking intelligence for the deep end.</b></div>
+  </header>
+
+  <div class="tuner">
+    <span class="cue">▸</span>
+    <input id="q" placeholder="search an artist…  (try: Roza Terenzi, Yu Yang, D. Tiffany, Sleep D)" autocomplete="off" spellcheck="false"/>
+    <div id="drop"></div>
+  </div>
+  <div class="hint">JUMP TO &nbsp;·&nbsp; <b data-a="Roza Terenzi">Roza Terenzi</b> &nbsp; <b data-a="Yu Yang">Yu Yang</b> &nbsp; <b data-a="D. Tiffany">D. Tiffany</b> &nbsp; <b data-a="Sleep D">Sleep D</b> &nbsp; <b data-a="Fantastic Man">Fantastic Man</b></div>
+
+  <div id="stage">
+    <div class="empty"><div class="big">tune in to an artist</div>search a DJ to read their broadcast trajectory, the selectors they orbit, and the mix series to pitch them onto.</div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const PALETTE=['#f3b41a','#74d3c2','#ff6a45','#9bd06a','#c79bf0','#ffd56b','#5fb0e8','#e87da0','#b9a06a','#7ee0b0','#e0863a','#9aa7ff','#d8d36a','#6ad0d0','#ff9e6a','#c0c0b0'];
+const norm=s=>(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+let stats=null;
+
+async function boot(){
+  stats=await (await fetch('/api/stats')).json();
+  $('#stats').innerHTML=`<span><b>${stats.artists.toLocaleString()}</b> artists</span><span><b>${stats.series}</b> series</span><span><b>${stats.mixes.toLocaleString()}</b> mixes</span>`;
+  $('#foot').textContent=`MIXGRAPH · ${stats.artists.toLocaleString()} underground selectors across ${stats.series} mix series & radio shows · keyless crawl (Mixcloud · SoundCloud · RSS)`;
+}
+boot();
+
+// ---- search ----
+let dropItems=[], dropSel=-1, tmr=null;
+$('#q').addEventListener('input',e=>{ clearTimeout(tmr); tmr=setTimeout(()=>doSearch(e.target.value),140); });
+$('#q').addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'){dropSel=Math.min(dropSel+1,dropItems.length-1);paintDrop();e.preventDefault();}
+  else if(e.key==='ArrowUp'){dropSel=Math.max(dropSel-1,0);paintDrop();e.preventDefault();}
+  else if(e.key==='Enter'){ if(dropItems[dropSel]) loadArtist(dropItems[dropSel].key); else if(dropItems[0]) loadArtist(dropItems[0].key); }
+  else if(e.key==='Escape'){ $('#drop').style.display='none'; }
+});
+async function doSearch(q){
+  if(norm(q).length<2){ $('#drop').style.display='none'; return; }
+  dropItems=await (await fetch('/api/search?q='+encodeURIComponent(q))).json(); dropSel=-1; paintDrop();
+}
+function paintDrop(){
+  const d=$('#drop'); if(!dropItems.length){ d.style.display='none'; return; }
+  d.innerHTML=dropItems.map((it,i)=>`<div class="row ${i===dropSel?'on':''}" data-k="${it.key}"><span>${esc(it.name)}</span><span class="n">${it.n_series} series</span></div>`).join('');
+  d.style.display='block';
+  d.querySelectorAll('.row').forEach(r=>r.onclick=()=>loadArtist(r.dataset.k));
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.tuner')) $('#drop').style.display='none'; });
+document.querySelectorAll('.hint b').forEach(b=>b.onclick=()=>loadArtist(norm(b.dataset.a)));
+
+// ---- load artist ----
+async function loadArtist(key){
+  $('#drop').style.display='none'; $('#q').value='';
+  $('#stage').innerHTML='<div class="loading">▸ tuning in…</div>';
+  const r=await fetch('/api/artist/'+encodeURIComponent(key));
+  if(!r.ok){ $('#stage').innerHTML='<div class="empty">no signal for that artist.</div>'; return; }
+  renderArtist(await r.json());
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderArtist(a){
+  const span=(a.year_min&&a.year_max)?`active ${a.year_min}–${a.year_max}`:'';
+  const mixes=a.events.length;
+  let h=`<div class="dname">${esc(a.name)}</div>
+    <div class="meta">${span?`<span>${span}</span>`:''}<span><b>${a.n_series}</b> series</span><span><b>${mixes}</b> mixes logged</span>${a.recommend.length?`<span class="k">▸ ${a.recommend.length} pitch targets</span>`:''}</div>`;
+
+  // trajectory
+  h+=`<section class="blk"><h2 class="lbl">broadcast trajectory <span class="c">· the career, lit up over time</span></h2><div id="trajwrap"></div><div class="legend" id="legend"></div></section>`;
+
+  // pitch these
+  if(a.recommend.length){
+    const mx=Math.max(...a.recommend.map(x=>x.signal));
+    h+=`<section class="blk"><h2 class="lbl">pitch these <span class="c">· mix series her peers play that she hasn't</span></h2><div class="pitch">`+
+      a.recommend.map((x,i)=>`<div class="prow" data-s="${esc(x.series)}"><span class="rk">${String(i+1).padStart(2,'0')}</span>
+        <span class="nm">${esc(x.series)}${x.category?`<small>${esc(x.category.replace('-',' '))}</small>`:''}</span>
+        <div><div class="bar"><i style="width:${Math.round(100*x.signal/mx)}%"></i></div><div class="sig">signal ${x.signal}</div></div></div>`).join('')+`</div></section>`;
+  }
+
+  // played alongside
+  if(a.peers.length){
+    h+=`<section class="blk"><h2 class="lbl">played alongside <span class="c">· selectors she shares mix series with</span></h2><div class="chips">`+
+      a.peers.map(p=>`<span class="chip" data-a="${norm(p.artist)}">${esc(p.artist)}<span class="x">${p.shared_series}×</span></span>`).join('')+`</div></section>`;
+  }
+
+  // on these series
+  h+=`<section class="blk"><h2 class="lbl">on the air at</h2><div class="chips">`+
+    a.series.map(s=>`<span class="chip ser" data-s="${esc(s.series)}">${esc(s.series)}<span class="x">${s.plays}×</span></span>`).join('')+`</div></section>`;
+
+  $('#stage').innerHTML=h;
+  drawTrajectory(a);
+  $('#stage').querySelectorAll('.chip[data-a],.prow[data-a]').forEach(el=>el.onclick=()=>loadArtist(el.dataset.a));
+  $('#stage').querySelectorAll('[data-s]').forEach(el=>el.onclick=()=>loadSeries(el.dataset.s));
+  $('#stage').querySelectorAll('.chip[data-a]').forEach(el=>el.onclick=()=>loadArtist(el.dataset.a));
+}
+
+// ---- trajectory SVG: series lanes over a time axis ----
+function drawTrajectory(a){
+  const ev=a.events.filter(e=>e.date); if(!ev.length){ $('#trajwrap').innerHTML='<div class="empty" style="padding:30px">no dated mixes to plot.</div>'; return; }
+  // order series by first appearance, assign lane + colour
+  const order=[]; ev.forEach(e=>{ if(!order.includes(e.series)) order.push(e.series); });
+  const col={}; order.forEach((s,i)=>col[s]=PALETTE[i%PALETTE.length]);
+  const y0=a.year_min, y1=Math.max(a.year_max, y0)+1;
+  const W=1040, padL=160, padR=24, padT=18, laneH=26, padB=30;
+  const H=padT+order.length*laneH+padB;
+  const x=d=>{ const t=(new Date(d)-new Date(y0+'-01-01'))/(new Date(y1+'-01-01')-new Date(y0+'-01-01')); return padL+t*(W-padL-padR); };
+  let s=`<svg id="traj" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">`;
+  // year gridlines
+  for(let y=y0;y<=y1;y++){ const px=x(y+'-01-01');
+    s+=`<line x1="${px}" y1="${padT-6}" x2="${px}" y2="${H-padB+6}" stroke="#241d14"/>`;
+    s+=`<text x="${px}" y="${H-padB+20}" fill="#6a6253" font-size="10" font-family="DM Mono" text-anchor="middle">${y}</text>`; }
+  // lanes
+  order.forEach((ser,i)=>{ const ly=padT+i*laneH+laneH/2;
+    s+=`<line x1="${padL}" y1="${ly}" x2="${W-padR}" y2="${ly}" stroke="#1e1810"/>`;
+    s+=`<text x="${padL-12}" y="${ly+3.5}" fill="${col[ser]}" font-size="10.5" font-family="DM Mono" text-anchor="end">${esc(ser.length>22?ser.slice(0,21)+'…':ser)}</text>`;
+  });
+  // events
+  ev.forEach(e=>{ const ly=padT+order.indexOf(e.series)*laneH+laneH/2;
+    s+=`<circle class="ev" cx="${x(e.date).toFixed(1)}" cy="${ly}" r="4.5" fill="${col[e.series]}" fill-opacity=".85" stroke="#0c0b09" stroke-width="1"
+        data-t="${esc(e.title||'')}" data-s="${esc(e.series)}" data-d="${e.date}"/>`; });
+  s+=`</svg>`;
+  $('#trajwrap').innerHTML=s;
+  $('#legend').innerHTML=order.map(o=>`<span><i style="background:${col[o]}"></i>${esc(o)}</span>`).join('');
+  // tooltip
+  const tip=$('#tip');
+  $('#trajwrap').querySelectorAll('circle.ev').forEach(c=>{
+    c.addEventListener('mouseenter',e=>{ tip.innerHTML=`<div class="s">${c.dataset.s}</div><div class="t">${c.dataset.t||'—'}</div><div class="d">${c.dataset.d}</div>`; tip.style.display='block'; });
+    c.addEventListener('mousemove',e=>{ tip.style.left=Math.min(e.clientX+14,innerWidth-300)+'px'; tip.style.top=(e.clientY+14)+'px'; });
+    c.addEventListener('mouseleave',()=>tip.style.display='none');
+  });
+}
+
+// ---- series view ----
+async function loadSeries(name){
+  $('#stage').innerHTML='<div class="loading">▸ tuning in…</div>';
+  const a=await (await fetch('/api/series/'+encodeURIComponent(name))).json();
+  let h=`<div class="dname" style="color:var(--cyan)">${esc(a.name)}</div>
+    <div class="meta"><span class="k">mix series</span>${a.category?`<span>${esc(a.category.replace('-',' '))}</span>`:''}<span><b>${a.roster_size}</b> selectors</span><span>${a.count||a.mixes||0} mixes</span></div>`;
+  if(a.similar_series&&a.similar_series.length){
+    h+=`<section class="blk"><h2 class="lbl">sounds-adjacent series <span class="c">· shared roster</span></h2><div class="chips">`+
+      a.similar_series.map(s=>`<span class="chip ser" data-s="${esc(s.series)}">${esc(s.series)}<span class="x">${s.shared_artists} shared</span></span>`).join('')+`</div></section>`;
+  }
+  h+=`<section class="blk"><h2 class="lbl">the roster <span class="c">· who's played here</span></h2><div class="chips">`+
+    a.roster.map(r=>`<span class="chip" data-a="${norm(r.name)}">${esc(r.name)}<span class="x">${r.plays}×</span></span>`).join('')+`</div></section>`;
+  $('#stage').innerHTML=h;
+  $('#stage').querySelectorAll('[data-a]').forEach(el=>el.onclick=()=>loadArtist(el.dataset.a));
+  $('#stage').querySelectorAll('[data-s]').forEach(el=>el.onclick=()=>loadSeries(el.dataset.s));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+</script>
+</body>
+</html>
