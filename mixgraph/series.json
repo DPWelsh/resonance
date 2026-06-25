@@ -1,0 +1,476 @@
+[
+ {
+  "name": "Melbourne Deepcast",
+  "category": "seed",
+  "method": "rss",
+  "apple_id": "323687617",
+  "cap": 400
+ },
+ {
+  "name": "Opalakia",
+  "category": "naarm-local",
+  "method": "rss",
+  "apple_id": "1225481800",
+  "cap": 300
+ },
+ {
+  "name": "NTS Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "handle": "NTSRadio",
+  "cap": 60,
+  "mega": true
+ },
+ {
+  "name": "Resident Advisor",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "handle": "residentadvisor",
+  "cap": 80,
+  "mega": true
+ },
+ {
+  "name": "Boiler Room",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 60,
+  "mega": true
+ },
+ {
+  "name": "Worldwide FM",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "handle": "WorldwideFM",
+  "cap": 60,
+  "mega": true
+ },
+ {
+  "name": "Dekmantel",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "handle": "Dekmantel",
+  "cap": 120
+ },
+ {
+  "name": "The Lot Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "handle": "thelotradio",
+  "cap": 120
+ },
+ {
+  "name": "Refuge Worldwide",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "HOER Berlin",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "hoerberlin"
+ },
+ {
+  "name": "Kiosk Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "KioskRadio"
+ },
+ {
+  "name": "LYL Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "LYLRADIO"
+ },
+ {
+  "name": "Rinse FM",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 80,
+  "mega": true
+ },
+ {
+  "name": "Red Light Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "redlightradio"
+ },
+ {
+  "name": "dublab",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "handle": "dublab",
+  "cap": 120
+ },
+ {
+  "name": "Operator Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Cashmere Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "cashmereradio"
+ },
+ {
+  "name": "Noods Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "NoodsRadio"
+ },
+ {
+  "name": "Berlin Community Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "BCR_Radio"
+ },
+ {
+  "name": "KMAH Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "KMAHRadio"
+ },
+ {
+  "name": "Spiritland",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Carhartt",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 80
+ },
+ {
+  "name": "IDA Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Tsugi Radio",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 80,
+  "handle": "tsugi"
+ },
+ {
+  "name": "Le Mellotron",
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Beats In Space",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "beatsinspace"
+ },
+ {
+  "name": "Solid Steel",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 80
+ },
+ {
+  "name": "Crack Magazine",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "handle": "CrackMagazine",
+  "cap": 120
+ },
+ {
+  "name": "XLR8R",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "handle": "XLR8R",
+  "cap": 120
+ },
+ {
+  "name": "Little White Earbuds",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Truants",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Phonica Records",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Inverted Audio",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Stamp The Wax",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Test Pressing",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Mixmag",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 60,
+  "mega": true
+ },
+ {
+  "name": "DJ Mag",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 60,
+  "mega": true
+ },
+ {
+  "name": "The Ransom Note",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Feel My Bicep",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Pacific Rhythm",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Sanpo Disco",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Nowadays",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Sure Thing",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Spontaneous Affinity",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Sound Directions",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Digital Tsunami",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Friendly Potential",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "SlothBoogie",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Soundwall",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Sleazy Beats",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Clash",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 80,
+  "mega": true
+ },
+ {
+  "name": "Cadenza",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Groove",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 80
+ },
+ {
+  "name": "A Strangely Isolated Place",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Trushmix",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Mantissa Mix",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Huntleys + Palmers",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "12th Isle",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Goodhood",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Mitamine Lab",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Louche",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "HATE",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Deeper Shades Of House",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Deep House Amsterdam",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "BCCO",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Dimensions Festival",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Clubberia",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Southport Weekender",
+  "category": "curated-series",
+  "method": "mixcloud",
+  "cap": 120,
+  "handle": "SouthportWeekender"
+ },
+ {
+  "name": "Skylab Radio",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 200,
+  "handle": "skylabradio"
+ },
+ {
+  "name": "Butter Sessions",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 150
+ },
+ {
+  "name": "Triple R",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "Kiss FM Australia",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "PBS FM",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 120
+ },
+ {
+  "name": "FBi Radio",
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "cap": 120
+ }
+]

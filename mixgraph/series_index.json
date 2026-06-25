@@ -1,0 +1,2450 @@
+{
+ "Melbourne Deepcast": {
+  "category": "seed",
+  "method": "rss",
+  "mixes": 308,
+  "roster_size": 296,
+  "similar_series": [
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 27,
+    "jaccard": 0.069
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 23,
+    "jaccard": 0.058
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 17,
+    "jaccard": 0.042
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 17,
+    "jaccard": 0.042
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 12,
+    "jaccard": 0.034
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 13,
+    "jaccard": 0.031
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 9,
+    "jaccard": 0.022
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 9,
+    "jaccard": 0.02
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 7,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 7,
+    "jaccard": 0.017
+   }
+  ]
+ },
+ "NTS Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 60,
+  "roster_size": 96,
+  "similar_series": [
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 3,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Refuge Worldwide",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Solid Steel",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Resident Advisor": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 80,
+  "roster_size": 85,
+  "similar_series": [
+   {
+    "series": "Dekmantel",
+    "shared_artists": 7,
+    "jaccard": 0.035
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Huntleys + Palmers",
+    "shared_artists": 1,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   }
+  ]
+ },
+ "Boiler Room": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 1,
+  "roster_size": 1,
+  "similar_series": []
+ },
+ "Worldwide FM": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 60,
+  "roster_size": 43,
+  "similar_series": []
+ },
+ "Dekmantel": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 121,
+  "similar_series": [
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 10,
+    "jaccard": 0.043
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 7,
+    "jaccard": 0.035
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 6,
+    "jaccard": 0.025
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 4,
+    "jaccard": 0.023
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Crack Magazine",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Spontaneous Affinity",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 3,
+    "jaccard": 0.011
+   }
+  ]
+ },
+ "The Lot Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 141,
+  "similar_series": [
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Refuge Worldwide": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 102,
+  "similar_series": [
+   {
+    "series": "NTS Radio",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Skylab Radio",
+    "shared_artists": 1,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "LYL Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "HOER Berlin": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 7,
+  "roster_size": 5,
+  "similar_series": []
+ },
+ "Kiosk Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 114,
+  "similar_series": []
+ },
+ "LYL Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 101,
+  "similar_series": [
+   {
+    "series": "Crack Magazine",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Refuge Worldwide",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Berlin Community Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Noods Radio",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "Rinse FM": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 4,
+  "roster_size": 4,
+  "similar_series": []
+ },
+ "Red Light Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 52,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "dublab": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 152,
+  "similar_series": [
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "SlothBoogie",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Deep House Amsterdam",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Cashmere Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 118,
+  "similar_series": []
+ },
+ "Noods Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 186,
+  "similar_series": [
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "DJ Mag",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Friendly Potential",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "LYL Radio",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "Berlin Community Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 120,
+  "similar_series": [
+   {
+    "series": "LYL Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "12th Isle",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "KMAH Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 112,
+  "similar_series": []
+ },
+ "Spiritland": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 119,
+  "similar_series": [
+   {
+    "series": "SlothBoogie",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Carhartt": {
+  "category": "radio-hub",
+  "method": "soundcloud-apify",
+  "mixes": 199,
+  "roster_size": 133,
+  "similar_series": []
+ },
+ "Tsugi Radio": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 80,
+  "roster_size": 60,
+  "similar_series": [
+   {
+    "series": "Mixmag",
+    "shared_artists": 2,
+    "jaccard": 0.019
+   },
+   {
+    "series": "Deep House Amsterdam",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Clubberia",
+    "shared_artists": 1,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 2,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Le Mellotron": {
+  "category": "radio-hub",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 127,
+  "similar_series": [
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.002
+   }
+  ]
+ },
+ "Beats In Space": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 99,
+  "roster_size": 99,
+  "similar_series": []
+ },
+ "Solid Steel": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 80,
+  "roster_size": 46,
+  "similar_series": [
+   {
+    "series": "Test Pressing",
+    "shared_artists": 5,
+    "jaccard": 0.032
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 4,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 2,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "12th Isle",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "Crack Magazine": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 69,
+  "similar_series": [
+   {
+    "series": "XLR8R",
+    "shared_artists": 3,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Spontaneous Affinity",
+    "shared_artists": 1,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "LYL Radio",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Goodhood",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "XLR8R": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 122,
+  "similar_series": [
+   {
+    "series": "Louche",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Crack Magazine",
+    "shared_artists": 3,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 4,
+    "jaccard": 0.016
+   },
+   {
+    "series": "SlothBoogie",
+    "shared_artists": 3,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 5,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   }
+  ]
+ },
+ "Little White Earbuds": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 123,
+  "similar_series": [
+   {
+    "series": "Louche",
+    "shared_artists": 11,
+    "jaccard": 0.047
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 17,
+    "jaccard": 0.042
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Solid Steel",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Mixmag",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "Truants": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 119,
+  "similar_series": [
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 9,
+    "jaccard": 0.038
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 7,
+    "jaccard": 0.03
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 7,
+    "jaccard": 0.03
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 7,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   }
+  ]
+ },
+ "Phonica Records": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 123,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 17,
+    "jaccard": 0.042
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 8,
+    "jaccard": 0.033
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 7,
+    "jaccard": 0.03
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 7,
+    "jaccard": 0.029
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   }
+  ]
+ },
+ "Inverted Audio": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 122,
+  "similar_series": [
+   {
+    "series": "Dekmantel",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 7,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   }
+  ]
+ },
+ "Stamp The Wax": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 75,
+  "similar_series": [
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Test Pressing": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 116,
+  "similar_series": [
+   {
+    "series": "Solid Steel",
+    "shared_artists": 5,
+    "jaccard": 0.032
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 6,
+    "jaccard": 0.024
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 6,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "12th Isle",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Mixmag": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 60,
+  "roster_size": 49,
+  "similar_series": [
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 2,
+    "jaccard": 0.019
+   },
+   {
+    "series": "Deep House Amsterdam",
+    "shared_artists": 2,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 1,
+    "jaccard": 0.01
+   },
+   {
+    "series": "DJ Mag",
+    "shared_artists": 1,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Goodhood",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "DJ Mag": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 60,
+  "roster_size": 75,
+  "similar_series": [
+   {
+    "series": "Mixmag",
+    "shared_artists": 1,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Noods Radio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "The Ransom Note": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 124,
+  "similar_series": [
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 3,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "Feel My Bicep": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 109,
+  "roster_size": 110,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 7,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Solid Steel",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "Pacific Rhythm": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 104,
+  "roster_size": 70,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 12,
+    "jaccard": 0.034
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Huntleys + Palmers",
+    "shared_artists": 1,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "dublab",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "DJ Mag",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Sanpo Disco": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 182,
+  "roster_size": 171,
+  "similar_series": [
+   {
+    "series": "12th Isle",
+    "shared_artists": 6,
+    "jaccard": 0.022
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 9,
+    "jaccard": 0.02
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 3,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   }
+  ]
+ },
+ "Nowadays": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 1,
+  "roster_size": 2,
+  "similar_series": []
+ },
+ "Sure Thing": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 55,
+  "roster_size": 55,
+  "similar_series": [
+   {
+    "series": "A Strangely Isolated Place",
+    "shared_artists": 4,
+    "jaccard": 0.029
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 4,
+    "jaccard": 0.023
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 4,
+    "jaccard": 0.023
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 3,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 4,
+    "jaccard": 0.012
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Mixmag",
+    "shared_artists": 1,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Spontaneous Affinity",
+    "shared_artists": 1,
+    "jaccard": 0.009
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   }
+  ]
+ },
+ "Spontaneous Affinity": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 54,
+  "roster_size": 58,
+  "similar_series": [
+   {
+    "series": "Dekmantel",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 1,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Crack Magazine",
+    "shared_artists": 1,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Mitamine Lab",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "Digital Tsunami": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 14,
+  "roster_size": 9,
+  "similar_series": []
+ },
+ "Friendly Potential": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 61,
+  "roster_size": 78,
+  "similar_series": [
+   {
+    "series": "Noods Radio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "SlothBoogie": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 103,
+  "similar_series": [
+   {
+    "series": "XLR8R",
+    "shared_artists": 3,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 2,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Spiritland",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Goodhood",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "dublab",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Soundwall": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 125,
+  "similar_series": [
+   {
+    "series": "Louche",
+    "shared_artists": 5,
+    "jaccard": 0.02
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 7,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Deep House Amsterdam",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 4,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 2,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 2,
+    "jaccard": 0.008
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Cadenza",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Sleazy Beats": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 14,
+  "roster_size": 15,
+  "similar_series": []
+ },
+ "Clash": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 80,
+  "roster_size": 2,
+  "similar_series": [
+   {
+    "series": "Triple R",
+    "shared_artists": 1,
+    "jaccard": 0.111
+   },
+   {
+    "series": "Kiss FM Australia",
+    "shared_artists": 1,
+    "jaccard": 0.014
+   },
+   {
+    "series": "PBS FM",
+    "shared_artists": 1,
+    "jaccard": 0.014
+   }
+  ]
+ },
+ "Cadenza": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 64,
+  "similar_series": [
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "Groove": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 10,
+  "roster_size": 10,
+  "similar_series": []
+ },
+ "A Strangely Isolated Place": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 88,
+  "similar_series": [
+   {
+    "series": "Sure Thing",
+    "shared_artists": 4,
+    "jaccard": 0.029
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Trushmix": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 200,
+  "roster_size": 135,
+  "similar_series": [
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 11,
+    "jaccard": 0.045
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 13,
+    "jaccard": 0.031
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 6,
+    "jaccard": 0.024
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 2,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Mantissa Mix",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   },
+   {
+    "series": "12th Isle",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   }
+  ]
+ },
+ "Mantissa Mix": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 167,
+  "roster_size": 165,
+  "similar_series": [
+   {
+    "series": "Sure Thing",
+    "shared_artists": 3,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 3,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 3,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 4,
+    "jaccard": 0.009
+   },
+   {
+    "series": "The Lot Radio",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Spontaneous Affinity",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Friendly Potential",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Huntleys + Palmers": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 16,
+  "roster_size": 19,
+  "similar_series": [
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 2,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 1,
+    "jaccard": 0.011
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 1,
+    "jaccard": 0.01
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "12th Isle": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 99,
+  "roster_size": 102,
+  "similar_series": [
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 6,
+    "jaccard": 0.022
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Solid Steel",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 2,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Berlin Community Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Goodhood": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 108,
+  "roster_size": 105,
+  "similar_series": [
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   },
+   {
+    "series": "Mixmag",
+    "shared_artists": 1,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 2,
+    "jaccard": 0.007
+   },
+   {
+    "series": "Crack Magazine",
+    "shared_artists": 1,
+    "jaccard": 0.006
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "SlothBoogie",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Deep House Amsterdam",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   }
+  ]
+ },
+ "Mitamine Lab": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 197,
+  "roster_size": 196,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 3,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 2,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 2,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 2,
+    "jaccard": 0.006
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 2,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Pacific Rhythm",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Spontaneous Affinity",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "NTS Radio",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ },
+ "Louche": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 124,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 23,
+    "jaccard": 0.058
+   },
+   {
+    "series": "Little White Earbuds",
+    "shared_artists": 11,
+    "jaccard": 0.047
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 7,
+    "jaccard": 0.03
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 7,
+    "jaccard": 0.029
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 5,
+    "jaccard": 0.02
+   },
+   {
+    "series": "Solid Steel",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 4,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "SlothBoogie",
+    "shared_artists": 2,
+    "jaccard": 0.009
+   }
+  ]
+ },
+ "HATE": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 7,
+  "roster_size": 8,
+  "similar_series": []
+ },
+ "Deeper Shades Of House": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 138,
+  "roster_size": 118,
+  "similar_series": []
+ },
+ "Deep House Amsterdam": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 109,
+  "similar_series": [
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 3,
+    "jaccard": 0.018
+   },
+   {
+    "series": "Soundwall",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Mixmag",
+    "shared_artists": 2,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Goodhood",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "dublab",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Inverted Audio",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Dimensions Festival",
+    "shared_artists": 1,
+    "jaccard": 0.004
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.002
+   }
+  ]
+ },
+ "BCCO": {
+  "category": "curated-series",
+  "method": "soundcloud-apify",
+  "mixes": 58,
+  "roster_size": 58,
+  "similar_series": []
+ },
+ "Dimensions Festival": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 120,
+  "roster_size": 124,
+  "similar_series": [
+   {
+    "series": "Dekmantel",
+    "shared_artists": 10,
+    "jaccard": 0.043
+   },
+   {
+    "series": "Truants",
+    "shared_artists": 9,
+    "jaccard": 0.038
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 8,
+    "jaccard": 0.033
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 9,
+    "jaccard": 0.022
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 4,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Resident Advisor",
+    "shared_artists": 3,
+    "jaccard": 0.015
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Feel My Bicep",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Goodhood",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   }
+  ]
+ },
+ "Clubberia": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 29,
+  "roster_size": 2,
+  "similar_series": [
+   {
+    "series": "Tsugi Radio",
+    "shared_artists": 1,
+    "jaccard": 0.016
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 1,
+    "jaccard": 0.008
+   }
+  ]
+ },
+ "Southport Weekender": {
+  "category": "curated-series",
+  "method": "mixcloud",
+  "mixes": 21,
+  "roster_size": 20,
+  "similar_series": []
+ },
+ "Skylab Radio": {
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "mixes": 166,
+  "roster_size": 12,
+  "similar_series": [
+   {
+    "series": "Refuge Worldwide",
+    "shared_artists": 1,
+    "jaccard": 0.009
+   }
+  ]
+ },
+ "Butter Sessions": {
+  "category": "naarm-local",
+  "method": "soundcloud-apify",
+  "mixes": 125,
+  "roster_size": 121,
+  "similar_series": [
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 27,
+    "jaccard": 0.069
+   },
+   {
+    "series": "Trushmix",
+    "shared_artists": 11,
+    "jaccard": 0.045
+   },
+   {
+    "series": "Dekmantel",
+    "shared_artists": 6,
+    "jaccard": 0.025
+   },
+   {
+    "series": "Sure Thing",
+    "shared_artists": 4,
+    "jaccard": 0.023
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 5,
+    "jaccard": 0.021
+   },
+   {
+    "series": "Test Pressing",
+    "shared_artists": 4,
+    "jaccard": 0.017
+   },
+   {
+    "series": "Sanpo Disco",
+    "shared_artists": 4,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Huntleys + Palmers",
+    "shared_artists": 2,
+    "jaccard": 0.014
+   },
+   {
+    "series": "XLR8R",
+    "shared_artists": 3,
+    "jaccard": 0.013
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 3,
+    "jaccard": 0.012
+   }
+  ]
+ },
+ "Triple R": {
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "mixes": 38,
+  "roster_size": 8,
+  "similar_series": [
+   {
+    "series": "Clash",
+    "shared_artists": 1,
+    "jaccard": 0.111
+   },
+   {
+    "series": "Kiss FM Australia",
+    "shared_artists": 1,
+    "jaccard": 0.013
+   },
+   {
+    "series": "PBS FM",
+    "shared_artists": 1,
+    "jaccard": 0.013
+   }
+  ]
+ },
+ "Kiss FM Australia": {
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "mixes": 69,
+  "roster_size": 71,
+  "similar_series": [
+   {
+    "series": "PBS FM",
+    "shared_artists": 71,
+    "jaccard": 1.0
+   },
+   {
+    "series": "Clash",
+    "shared_artists": 1,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Triple R",
+    "shared_artists": 1,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "PBS FM": {
+  "category": "naarm-local",
+  "method": "mixcloud",
+  "mixes": 69,
+  "roster_size": 71,
+  "similar_series": [
+   {
+    "series": "Kiss FM Australia",
+    "shared_artists": 71,
+    "jaccard": 1.0
+   },
+   {
+    "series": "Clash",
+    "shared_artists": 1,
+    "jaccard": 0.014
+   },
+   {
+    "series": "Triple R",
+    "shared_artists": 1,
+    "jaccard": 0.013
+   },
+   {
+    "series": "Phonica Records",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Louche",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   }
+  ]
+ },
+ "FBi Radio": {
+  "category": "naarm-local",
+  "method": "soundcloud-apify",
+  "mixes": 176,
+  "roster_size": 99,
+  "similar_series": [
+   {
+    "series": "XLR8R",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "The Ransom Note",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Butter Sessions",
+    "shared_artists": 1,
+    "jaccard": 0.005
+   },
+   {
+    "series": "Melbourne Deepcast",
+    "shared_artists": 1,
+    "jaccard": 0.003
+   }
+  ]
+ }
+}
